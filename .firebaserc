@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "ngkeepclone": {
+      "hosting": {
+        "NgGoogleKeepClone": [
+          "ngkeepclone"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "ngkeepclone"
+  }
+}
