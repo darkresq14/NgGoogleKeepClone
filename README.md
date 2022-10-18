@@ -12,7 +12,8 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Features
 
-Offline Mode: Persistance via Firestore  
+Login / Signup: Firebase Authentication
+Offline Mode: Persistance Firestore  
 
 ## Development server
 
