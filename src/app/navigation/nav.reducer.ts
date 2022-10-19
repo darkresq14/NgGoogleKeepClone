@@ -5,7 +5,7 @@ export interface NavState {
   isExpanded: boolean;
 }
 
-export const INITIAL_STATE = {
+const INITIAL_STATE = {
   isExpanded: true,
 };
 

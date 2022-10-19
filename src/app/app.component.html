@@ -1,12 +1,12 @@
 <header>
   <app-header (sidenavToggle)="onSidenavToggle()"></app-header>
 </header>
-<mat-sidenav-container>
+<mat-sidenav-container autosize class="my-container">
   <mat-sidenav
     class="sidenav"
     #sidenav
     mode="side"
-    [opened]="isExpanded$ | async"
+    opened
     [fixedInViewport]="true"
     [fixedTopGap]="64"
     [fixedBottomGap]="0"

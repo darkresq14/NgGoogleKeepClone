@@ -26,6 +26,8 @@ import { NotesComponent } from './notes/notes.component';
 import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
 import { StoreModule } from '@ngrx/store';
 import { reducers } from './store/app.reducer';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -43,6 +45,8 @@ import { reducers } from './store/app.reducer';
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
+    FormsModule,
+    HttpClientModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule.enablePersistence(),
     provideFirebaseApp(() => initializeApp(environment.firebase)),

@@ -1,1 +1,76 @@
-<p>login works!</p>
+<section class="py-5">
+  <form
+    (ngSubmit)="onSubmit()"
+    #form="ngForm"
+    class="flex flex-col items-center justify-center"
+  >
+    <mat-form-field appearance="fill" class="flex-auto w-80">
+      <mat-label>Enter your email</mat-label>
+      <input
+        matInput
+        type="text"
+        [(ngModel)]="email"
+        name="email"
+        required
+        email
+      />
+      <mat-error>Invalid or missing email.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="flex-auto w-80">
+      <mat-label>Enter your password</mat-label>
+      <input
+        matInput
+        [type]="hide ? 'password' : 'text'"
+        [(ngModel)]="password"
+        name="password"
+        #passField="ngModel"
+        password
+        required
+        minlength="6"
+      />
+      <button
+        mat-icon-button
+        matSuffix
+        (click)="hide = !hide"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hide"
+      >
+        <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+      </button>
+      <mat-error *ngIf="passField.errors?.['required']"
+        >Password is required.</mat-error
+      >
+      <mat-error *ngIf="passField.errors?.['minlength']"
+        >Password must be at least 6 characters long.</mat-error
+      >
+    </mat-form-field>
+
+    <div class="flex flex-row w-80">
+      <button
+        mat-raised-button
+        type="submit"
+        [disabled]="!form.form.valid"
+        color="primary"
+        class="self-start"
+      >
+        Login
+      </button>
+      <div class="flex-auto"></div>
+      <button
+        mat-raised-button
+        type="button"
+        color="accent"
+        class="self-end"
+        (click)="loginWithGoogle()"
+      >
+        <mat-icon
+          svgIcon="google-g-logo"
+          aria-hidden="false"
+          class="scale-75"
+        ></mat-icon>
+        Login with Google
+      </button>
+    </div>
+  </form>
+</section>
