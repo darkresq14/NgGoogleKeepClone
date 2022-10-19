@@ -24,9 +24,20 @@ import { SidenavComponent } from './navigation/sidenav/sidenav.component';
 import { InputComponent } from './input/input.component';
 import { NotesComponent } from './notes/notes.component';
 import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
+import { StoreModule } from '@ngrx/store';
+import { reducers } from './store/app.reducer';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, SignupComponent, HeaderComponent, SidenavComponent, InputComponent, NotesComponent, PageNotFoundComponent],
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    SignupComponent,
+    HeaderComponent,
+    SidenavComponent,
+    InputComponent,
+    NotesComponent,
+    PageNotFoundComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -38,6 +49,7 @@ import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.co
     provideAnalytics(() => getAnalytics()),
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
+    StoreModule.forRoot(reducers),
   ],
   providers: [ScreenTrackingService, UserTrackingService],
   bootstrap: [AppComponent],

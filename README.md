@@ -9,6 +9,8 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 | angular           | 14.2.0  |
 | @angular/material | 14.2.5  |
 | @angular/fire     | 7.4.1   |
+| tailwindcss       | 3.1.8   |
+| @ngrx/store       | 14.3.2  |
 
 ## Features
 

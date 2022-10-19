@@ -1,4 +1,9 @@
 import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { toggleSidenav } from './navigation/nav.actions';
+import { selectNavIsExpanded } from './navigation/nav.selector';
+import { State } from './store/app.reducer';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +11,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  constructor() {}
+  isExpanded$: Observable<boolean>;
+
+  constructor(private store: Store<State>) {
+    this.isExpanded$ = store.select(selectNavIsExpanded);
+  }
+
+  onSidenavToggle() {
+    this.store.dispatch(toggleSidenav());
+  }
 }

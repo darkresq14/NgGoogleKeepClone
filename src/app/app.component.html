@@ -1,2 +1,23 @@
-<app-header></app-header>
-<router-outlet></router-outlet>
+<header>
+  <app-header (sidenavToggle)="onSidenavToggle()"></app-header>
+</header>
+<mat-sidenav-container>
+  <mat-sidenav
+    class="sidenav"
+    #sidenav
+    mode="side"
+    [opened]="isExpanded$ | async"
+    [fixedInViewport]="true"
+    [fixedTopGap]="64"
+    [fixedBottomGap]="0"
+  >
+    <aside>
+      <app-sidenav></app-sidenav>
+    </aside>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <main>
+      <router-outlet></router-outlet>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>
