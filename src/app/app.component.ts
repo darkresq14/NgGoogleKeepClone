@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { toggleSidenav } from './navigation/nav.actions';
+import { toggleSidenav } from './shared/ui/ui.actions';
 import { State } from './store/app.reducer';
 
 @Component({

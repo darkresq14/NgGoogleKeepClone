@@ -8,8 +8,8 @@ import {
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { selectUiIsSidenavExpanded } from 'src/app/shared/ui/ui.selector';
 import { State } from '../../store/app.reducer';
-import { selectNavIsExpanded } from '../nav.selector';
 
 @Component({
   selector: 'app-sidenav',
@@ -40,7 +40,7 @@ export class SidenavComponent implements OnInit {
   isExpanded$: Observable<boolean>;
 
   constructor(private store: Store<State>) {
-    this.isExpanded$ = store.select(selectNavIsExpanded);
+    this.isExpanded$ = store.select(selectUiIsSidenavExpanded);
   }
 
   ngOnInit(): void {}
