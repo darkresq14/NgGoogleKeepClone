@@ -28,6 +28,7 @@ import { StoreModule } from '@ngrx/store';
 import { reducers } from './store/app.reducer';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { NoteComponent } from './notes/note/note.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { HttpClientModule } from '@angular/common/http';
     InputComponent,
     NotesComponent,
     PageNotFoundComponent,
+    NoteComponent,
   ],
   imports: [
     BrowserModule,

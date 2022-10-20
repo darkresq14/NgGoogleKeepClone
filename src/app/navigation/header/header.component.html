@@ -1,17 +1,13 @@
 <mat-toolbar color="primary" class="flex">
-  <span class="flex gap-3">
-    <button mat-icon-button class="material-icons" (click)="onToggleSidenav()">
-      <mat-icon>menu</mat-icon>
-    </button>
-    <span>My App</span>
-  </span>
+  <button mat-icon-button class="material-icons" (click)="onToggleSidenav()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <a [routerLink]="['/']">My App</a>
   <span class="flex-auto"></span>
-  <span class="flex gap-3">
-    <button mat-icon-button class="material-icons">
-      <mat-icon>favorite</mat-icon>
-    </button>
-    <button mat-icon-button class="material-icons">
-      <mat-icon>share</mat-icon>
-    </button>
-  </span>
+  <button mat-icon-button class="material-icons">
+    <mat-icon>favorite</mat-icon>
+  </button>
+  <button mat-icon-button class="material-icons">
+    <mat-icon>share</mat-icon>
+  </button>
 </mat-toolbar>
