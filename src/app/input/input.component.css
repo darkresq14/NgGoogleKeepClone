@@ -1,0 +1,11 @@
+input:focus,
+input:active,
+textarea:focus,
+textarea:active {
+  outline: none;
+}
+
+.inputTextArea {
+  resize: none;
+  width: 100%;
+}

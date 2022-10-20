@@ -10,6 +10,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   imports: [
@@ -24,6 +26,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     MatTooltipModule,
     MatGridListModule,
     DragDropModule,
+    MatSnackBarModule,
+    MatProgressSpinnerModule,
   ],
   exports: [
     MatToolbarModule,
@@ -37,6 +41,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     MatTooltipModule,
     MatGridListModule,
     DragDropModule,
+    MatSnackBarModule,
+    MatProgressSpinnerModule,
   ],
 })
 export class MaterialModule {}

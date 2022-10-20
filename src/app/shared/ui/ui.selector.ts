@@ -7,3 +7,13 @@ export const selectUiIsSidenavExpanded = createSelector(
   selectUi,
   (state: UiState) => state.isSidenavExpanded
 );
+
+export const selectUiIsInputEditMode = createSelector(
+  selectUi,
+  (state: UiState) => state.isInputEditMode
+);
+
+export const selectUiIsLoading = createSelector(
+  selectUi,
+  (state: UiState) => state.isLoading
+);
