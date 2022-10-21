@@ -40,10 +40,6 @@
           hidePassword ? "visibility_off" : "visibility"
         }}</mat-icon>
       </button>
-      <mat-hint>Password should be at least 6 characters long</mat-hint>
-      <mat-hint align="end"
-        >{{ signupForm.get("password")?.value.length }}/6</mat-hint
-      >
       <mat-error *ngIf="signupForm.get('password')?.errors?.['required']"
         >Password is required.</mat-error
       >
@@ -111,4 +107,10 @@
       </button>
     </div>
   </form>
+  <div class="flex flex-col items-center justify-center mt-8">
+    <span class="mat-body-icon">Already have an account?</span>
+    <button mat-button type="button" color="accent" (click)="goToSignIn()">
+      Login
+    </button>
+  </div>
 </section>

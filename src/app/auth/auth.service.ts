@@ -6,8 +6,8 @@ import firebase from 'firebase/compat/app';
 import { startLoading, stopLoading } from '../shared/ui/ui.actions';
 import { UiService } from '../shared/ui/ui.service';
 import { State } from '../store/app.reducer';
-import { setAuthenticated, setUid } from './auth.actions';
-import { RegisterData } from './auth.model';
+import { setAuthenticated, setUid, setUnauthenticated } from './auth.actions';
+import { AuthData } from './auth.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -18,13 +18,27 @@ export class AuthService {
     private uiService: UiService
   ) {}
 
-  registerUser(authData: RegisterData) {
+  initAuthListener(): void {
+    this.afAuth.authState.subscribe((user) => {
+      if (user) {
+        this.store.dispatch(setAuthenticated());
+        this.store.dispatch(setUid({ uid: user.uid }));
+        this.router.navigate(['/']);
+      } else {
+        this.store.dispatch(setUnauthenticated());
+        this.store.dispatch(setUid({ uid: null }));
+        this.router.navigate(['/login']);
+      }
+    });
+  }
+
+  registerUser(authData: AuthData) {
     this.store.dispatch(startLoading());
     this.afAuth
       .createUserWithEmailAndPassword(authData.email, authData.password)
       .then(() => {
         this.store.dispatch(stopLoading());
-        this.loginSuccess();
+        this.signInSuccess();
       })
       .catch((err) => {
         this.store.dispatch(stopLoading());
@@ -32,24 +46,41 @@ export class AuthService {
       });
   }
 
-  loginWithGoogle() {
+  signInWithEmailAndPassword(authData: AuthData) {
+    this.store.dispatch(startLoading());
+    this.afAuth
+      .signInWithEmailAndPassword(authData.email, authData.password)
+      .then(() => {
+        this.store.dispatch(stopLoading());
+        this.signInSuccess();
+      })
+      .catch((err) => {
+        this.store.dispatch(stopLoading());
+        this.uiService.showSnackbar(err.message, '', 3000);
+      });
+  }
+
+  signInWithGoogle() {
     this.afAuth
       .signInWithPopup(new firebase.auth.GoogleAuthProvider())
-      .then((data) => {
-        this.loginSuccess();
-        // console.log(data);
+      .then(() => {
+        this.signInSuccess();
       })
       .catch((err) => console.log(err.message));
   }
 
-  loginSuccess() {
-    console.log('success');
-    this.store.dispatch(setAuthenticated());
-    this.router.navigate(['/']);
-    this.afAuth.currentUser.then((user) => {
-      if (user) {
-        this.store.dispatch(setUid({ uid: user.uid }));
-      }
-    });
+  signInSuccess() {
+    console.log('Sign In Success');
+  }
+
+  signOut() {
+    this.afAuth
+      .signOut()
+      .then(() => {
+        console.log('Sign Out Success');
+      })
+      .catch((err) => {
+        this.uiService.showSnackbar(err.message, '', 3000);
+      });
   }
 }

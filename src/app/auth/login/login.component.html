@@ -59,9 +59,15 @@
         [disabled]="form.invalid"
         color="primary"
         class="self-start"
+        *ngIf="!(isLoading$ | async)"
       >
         Login
       </button>
+      <mat-spinner
+        *ngIf="isLoading$ | async"
+        [diameter]="40"
+        class="self-start"
+      ></mat-spinner>
       <div class="flex-auto"></div>
       <button
         mat-raised-button
@@ -79,4 +85,10 @@
       </button>
     </div>
   </form>
+  <div class="flex flex-col items-center justify-center mt-8">
+    <span class="mat-body-icon">Don't have an account?</span>
+    <button mat-button type="button" color="accent" (click)="goToSignUp()">
+      Create an account
+    </button>
+  </div>
 </section>

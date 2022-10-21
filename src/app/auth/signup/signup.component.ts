@@ -10,6 +10,7 @@ import {
 } from '@angular/forms';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { selectUiIsLoading } from 'src/app/shared/ui/ui.selector';
@@ -33,7 +34,8 @@ export class SignupComponent implements OnInit {
     sanitizer: DomSanitizer,
     private authService: AuthService,
     private store: Store<State>,
-    private auth: AuthService
+    private auth: AuthService,
+    private router: Router
   ) {
     this.isLoading$ = this.store.select(selectUiIsLoading);
 
@@ -68,6 +70,10 @@ export class SignupComponent implements OnInit {
   }
 
   loginWithGoogle() {
-    this.auth.loginWithGoogle();
+    this.auth.signInWithGoogle();
+  }
+
+  goToSignIn() {
+    this.router.navigate(['/login']);
   }
 }

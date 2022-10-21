@@ -4,10 +4,7 @@
   </button>
   <a [routerLink]="['/']">My App</a>
   <span class="flex-auto"></span>
-  <button mat-icon-button class="material-icons">
-    <mat-icon>favorite</mat-icon>
-  </button>
-  <button mat-icon-button class="material-icons">
-    <mat-icon>share</mat-icon>
+  <button mat-icon-button class="material-icons" (click)="logoutClicked()">
+    <mat-icon>logout</mat-icon>
   </button>
 </mat-toolbar>
