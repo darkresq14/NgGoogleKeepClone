@@ -24,6 +24,7 @@ export class AuthService {
       .createUserWithEmailAndPassword(authData.email, authData.password)
       .then(() => {
         this.store.dispatch(stopLoading());
+        this.loginSuccess();
       })
       .catch((err) => {
         this.store.dispatch(stopLoading());
@@ -38,10 +39,11 @@ export class AuthService {
         this.loginSuccess();
         // console.log(data);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err.message));
   }
 
   loginSuccess() {
+    console.log('success');
     this.store.dispatch(setAuthenticated());
     this.router.navigate(['/']);
     this.afAuth.currentUser.then((user) => {

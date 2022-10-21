@@ -26,7 +26,7 @@ import { NotesComponent } from './notes/notes.component';
 import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
 import { StoreModule } from '@ngrx/store';
 import { reducers } from './store/app.reducer';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NoteComponent } from './notes/note/note.component';
 
@@ -48,6 +48,7 @@ import { NoteComponent } from './notes/note/note.component';
     BrowserAnimationsModule,
     MaterialModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule.enablePersistence(),

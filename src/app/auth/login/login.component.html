@@ -4,27 +4,33 @@
     #form="ngForm"
     class="flex flex-col items-center justify-center"
   >
-    <mat-form-field appearance="fill" class="flex-auto w-80">
+    <mat-form-field appearance="outline" class="flex-auto w-80">
       <mat-label>Enter your email</mat-label>
       <input
         matInput
-        type="text"
+        type="email"
         [(ngModel)]="email"
         name="email"
-        required
         email
+        required
+        #emailInput="ngModel"
       />
-      <mat-error>Invalid or missing email.</mat-error>
+      <mat-error *ngIf="emailInput.hasError('required')"
+        >Email is required.</mat-error
+      >
+      <mat-error *ngIf="!emailInput.hasError('required')"
+        >Email is invalid.</mat-error
+      >
     </mat-form-field>
 
-    <mat-form-field appearance="fill" class="flex-auto w-80">
+    <mat-form-field appearance="outline" class="flex-auto w-80">
       <mat-label>Enter your password</mat-label>
       <input
         matInput
         [type]="hide ? 'password' : 'text'"
         [(ngModel)]="password"
         name="password"
-        #passField="ngModel"
+        #passInput="ngModel"
         password
         required
         minlength="6"
@@ -38,10 +44,10 @@
       >
         <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
       </button>
-      <mat-error *ngIf="passField.errors?.['required']"
+      <mat-error *ngIf="passInput.errors?.['required']"
         >Password is required.</mat-error
       >
-      <mat-error *ngIf="passField.errors?.['minlength']"
+      <mat-error *ngIf="passInput.errors?.['minlength']"
         >Password must be at least 6 characters long.</mat-error
       >
     </mat-form-field>
@@ -50,7 +56,7 @@
       <button
         mat-raised-button
         type="submit"
-        [disabled]="!form.form.valid"
+        [disabled]="form.invalid"
         color="primary"
         class="self-start"
       >

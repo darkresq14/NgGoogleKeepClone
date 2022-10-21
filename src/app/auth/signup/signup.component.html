@@ -1,60 +1,114 @@
-<section class="signup-form" style="padding: 30px">
+<section class="py-5">
   <form
-    fxLayout="column"
-    fxLayoutAlign="center center"
-    fxLayoutGap="10px"
-    #f="ngForm"
-    (ngSubmit)="onSubmit(f)"
+    [formGroup]="signupForm"
+    (ngSubmit)="onSubmit()"
+    class="flex flex-col items-center justify-center"
   >
-    <mat-form-field>
-      <mat-label>Email</mat-label>
+    <mat-form-field appearance="outline" class="flex-auto w-80">
+      <mat-label>Enter your email</mat-label>
       <input
+        matInput
         type="email"
-        matInput
-        placeholder="Your email"
-        ngModel
-        name="email"
-        email
-        required
-        #emailInput="ngModel"
+        formControlName="email"
+        autocomplete="new-email"
       />
-      <mat-error *ngIf="emailInput.hasError('required')"
-        >Field must not be empty</mat-error
+      <mat-error *ngIf="signupForm.get('email')?.hasError('required')"
+        >Email is required.</mat-error
       >
-      <mat-error *ngIf="!emailInput.hasError('required')"
-        >Email is invalid</mat-error
+      <mat-error *ngIf="!signupForm.get('email')?.hasError('required')"
+        >Email is invalid.</mat-error
       >
     </mat-form-field>
-    <mat-form-field>
-      <mat-label>Password</mat-label>
-      <input
-        type="password"
-        matInput
-        placeholder="Your password"
-        ngModel
-        name="password"
-        required
-        minlength="6"
-        #pwInput="ngModel"
-      />
-      <mat-hint>Password should be at least 6 characters long</mat-hint>
-      <mat-hint align="end">{{ pwInput.value?.length }}/6</mat-hint>
-      <mat-error fxLayout="row" fxLayoutAlign="space-between"
-        ><span>Password should be at least 6 characters long</span>
 
-        <span>{{ pwInput.value?.length }}/6</span></mat-error
+    <mat-form-field appearance="outline" class="flex-auto w-80">
+      <mat-label>Enter your password</mat-label>
+      <input
+        matInput
+        [type]="hidePassword ? 'password' : 'text'"
+        formControlName="password"
+        autocomplete="new-password"
+      />
+      <button
+        type="button"
+        mat-icon-button
+        matSuffix
+        (click)="hidePassword = !hidePassword"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hidePassword"
+      >
+        <mat-icon>{{
+          hidePassword ? "visibility_off" : "visibility"
+        }}</mat-icon>
+      </button>
+      <mat-hint>Password should be at least 6 characters long</mat-hint>
+      <mat-hint align="end"
+        >{{ signupForm.get("password")?.value.length }}/6</mat-hint
+      >
+      <mat-error *ngIf="signupForm.get('password')?.errors?.['required']"
+        >Password is required.</mat-error
+      >
+      <mat-error *ngIf="signupForm.get('password')?.errors?.['minlength']"
+        >Password must be at least 6 characters long.</mat-error
       >
     </mat-form-field>
-    >
-    <button
-      [disabled]="f.invalid"
-      type="submit"
-      mat-raised-button
-      color="primary"
-      *ngIf="!(isLoading$ | async)"
-    >
-      Submit
-    </button>
-    <mat-spinner *ngIf="isLoading$ | async" [diameter]="40"></mat-spinner>
+
+    <mat-form-field appearance="outline" class="flex-auto w-80">
+      <mat-label>Confirm your password</mat-label>
+      <input
+        matInput
+        [type]="hideConfirmPassword ? 'password' : 'text'"
+        formControlName="confirmPassword"
+        autocomplete="new-password"
+      />
+      <button
+        type="button"
+        mat-icon-button
+        matSuffix
+        (click)="hideConfirmPassword = !hideConfirmPassword"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hideConfirmPassword"
+      >
+        <mat-icon>{{
+          hideConfirmPassword ? "visibility_off" : "visibility"
+        }}</mat-icon>
+      </button>
+      <mat-error *ngIf="signupForm.get('confirmPassword')?.errors?.['matching']"
+        >Passwords do not match.</mat-error
+      >
+    </mat-form-field>
+
+    <div class="flex flex-row w-80">
+      <button
+        mat-raised-button
+        type="submit"
+        [disabled]="!signupForm.valid"
+        color="primary"
+        class="self-start"
+        *ngIf="!(isLoading$ | async)"
+      >
+        Sign up
+      </button>
+      <mat-spinner
+        *ngIf="isLoading$ | async"
+        [diameter]="40"
+        class="self-start"
+      ></mat-spinner>
+
+      <div class="flex-auto"></div>
+      <button
+        mat-raised-button
+        type="button"
+        color="accent"
+        class="self-end"
+        (click)="loginWithGoogle()"
+      >
+        <mat-icon
+          svgIcon="google-g-logo"
+          aria-hidden="false"
+          class="scale-75"
+        ></mat-icon>
+        Sign up with Google
+      </button>
+    </div>
   </form>
 </section>
