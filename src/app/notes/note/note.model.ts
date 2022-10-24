@@ -1,6 +1,7 @@
 export interface Note {
-  title: string;
-  content: string;
+  id?: string;
+  title?: string;
+  content?: string;
   type?: 'normal' | 'list' | 'drawing' | 'image';
   selected?: boolean;
   pinned?: boolean;

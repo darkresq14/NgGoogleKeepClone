@@ -3,10 +3,10 @@
   cols="2"
   rowHeight="250px"
   cdkDropList
-  [cdkDropListData]="notes$"
+  [cdkDropListData]="notes"
   (cdkDropListDropped)="drop($event)"
 >
-  <mat-grid-tile *ngFor="let note of notes$" cdkDrag>
+  <mat-grid-tile *ngFor="let note of notes" cdkDrag>
     <app-note [note]="note"></app-note>
   </mat-grid-tile>
 </mat-grid-list>

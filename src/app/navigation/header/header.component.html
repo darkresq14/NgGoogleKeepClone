@@ -4,7 +4,12 @@
   </button>
   <a [routerLink]="['/']">My App</a>
   <span class="flex-auto"></span>
-  <button mat-icon-button class="material-icons" (click)="logoutClicked()">
+  <button
+    mat-icon-button
+    class="material-icons"
+    (click)="logoutClicked()"
+    *ngIf="isAuthenticated$ | async"
+  >
     <mat-icon>logout</mat-icon>
   </button>
 </mat-toolbar>
