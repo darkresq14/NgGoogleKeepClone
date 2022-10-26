@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { State } from '../store/app.reducer';
 import { Note } from './note/note.model';
 import { NotesService } from './notes.service';
+import { getNotes } from './store/notes.actions';
 import { selectNotesNotes } from './store/notes.selector';
 
 @Component({
@@ -24,9 +25,12 @@ export class NotesComponent implements OnInit {
     this.store
       .select(selectNotesNotes)
       .subscribe((data) => (this.notes = [...data]));
+    this.store.dispatch(getNotes());
 
-    this.notesService.fetchPersonalNotes();
+    // this.notesService.fetchPersonalNotes();
   }
+
+  //TODO: add drag and drop directive
 
   drop(event: CdkDragDrop<Note[]>) {
     console.log('Drag and Drop: ', event);

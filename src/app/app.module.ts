@@ -29,6 +29,9 @@ import { reducers } from './store/app.reducer';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NoteComponent } from './notes/note/note.component';
+import { EffectsModule } from '@ngrx/effects';
+import { NotesEffects } from './notes/store/notes.effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 @NgModule({
   declarations: [
@@ -57,6 +60,8 @@ import { NoteComponent } from './notes/note/note.component';
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
     StoreModule.forRoot(reducers),
+    EffectsModule.forRoot([NotesEffects]),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
   ],
   providers: [ScreenTrackingService, UserTrackingService],
   bootstrap: [AppComponent],

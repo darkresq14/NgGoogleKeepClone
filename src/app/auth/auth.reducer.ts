@@ -1,5 +1,10 @@
 import { createReducer, on } from '@ngrx/store';
-import { setAuthenticated, setUid, setUnauthenticated } from './auth.actions';
+import {
+  // LoginStart,
+  setAuthenticated,
+  setUid,
+  setUnauthenticated,
+} from './auth.actions';
 
 export interface AuthState {
   isAuthenticated: boolean;
@@ -10,7 +15,7 @@ const INITIAL_STATE: Readonly<AuthState> = {
   isAuthenticated: false,
   uid: null,
 };
-
+//TODO: merge auth actions
 export const authReducer = createReducer(
   INITIAL_STATE,
   on(setAuthenticated, (state) => {
@@ -22,4 +27,7 @@ export const authReducer = createReducer(
   on(setUid, (state, { uid }) => {
     return { ...state, uid: uid };
   })
+  // on(LoginStart, (state) => {
+  //   return { ...state };
+  // })
 );

@@ -1,22 +1,20 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Store } from '@ngrx/store';
-import { map, Observable, Subscription, take } from 'rxjs';
+import { map, Observable, Subscription, switchMap, take } from 'rxjs';
 import { selectAuthUid } from '../auth/auth.selector';
-import { startLoading } from '../shared/ui/ui.actions';
 import { UiService } from '../shared/ui/ui.service';
 import { State } from '../store/app.reducer';
 import { Note } from './note/note.model';
-import { createNote, setNotes } from './store/notes.actions';
+import { createNote } from './store/notes.actions';
 
 @Injectable({
   providedIn: 'root',
 })
 export class NotesService {
-  private fbSub: Subscription | undefined;
+  private fbSub: Subscription[] = [];
 
   userUid$: Observable<string | null>;
-  userUid: string | null = null;
 
   constructor(
     private store: Store<State>,
@@ -27,45 +25,36 @@ export class NotesService {
   }
 
   fetchPersonalNotes() {
-    this.store.dispatch(startLoading());
-    this.userUid$.pipe(take(1)).subscribe((res) => (this.userUid = res));
-    if (this.userUid) {
-      this.fbSub = this.db
-        .collection(this.userUid)
-        .snapshotChanges()
-        .pipe(
-          map((docArray) =>
-            docArray.map((doc) => {
-              const data = doc.payload.doc.data() as Note;
-              const id = doc.payload.doc.id;
-              return { id, ...data };
-            })
-          )
-        )
-        .subscribe({
-          next: (res) => {
-            this.store.dispatch(setNotes({ notes: res }));
-          },
-          error: (err) => {
-            this.uiService.showSnackbar(err.message, '', 3000);
-          },
-        });
-    }
+    return this.userUid$.pipe(
+      take(1),
+      switchMap((uid) => {
+        return this.db.collection(uid!).snapshotChanges();
+      }),
+      map((docArray) =>
+        docArray.map((doc) => {
+          const data = doc.payload.doc.data() as Note;
+          const id = doc.payload.doc.id;
+          return { id, ...data };
+        })
+      )
+    );
   }
 
   addNoteToFirestore(note: Note) {
-    this.userUid$.pipe(take(1)).subscribe((res) => (this.userUid = res));
+    this.userUid$.pipe(take(1)).subscribe((uid) => {
+      const noteToAdd = {
+        title: note.title,
+        content: note.content,
+        type: 'normal',
+        date: new Date(),
+      };
 
-    const noteToAdd = {
-      title: note.title,
-      content: note.content,
-      type: 'normal',
-      date: new Date(),
-    };
-
-    if (this.userUid) {
-      this.db.collection(this.userUid).add(noteToAdd);
-    }
+      if (uid) {
+        this.db.collection(uid).add(noteToAdd);
+      } else {
+        this.uiService.showSnackbar('Error saving Note', '', 3000);
+      }
+    });
   }
 
   finishedEditingNote(title: string, content: string) {
@@ -74,8 +63,6 @@ export class NotesService {
   }
 
   cancelSubscriptions() {
-    if (this.fbSub) {
-      this.fbSub.unsubscribe();
-    }
+    this.fbSub.forEach((sub) => sub.unsubscribe());
   }
 }

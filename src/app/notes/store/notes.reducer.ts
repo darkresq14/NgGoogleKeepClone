@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { Note } from '../note/note.model';
-import { createNote, setNotes } from './notes.actions';
+import { createNote, getNotesSuccess, setNotes } from './notes.actions';
 
 export interface NotesState {
   notes: Note[];
@@ -18,6 +18,9 @@ export const notesReducer = createReducer(
     return { ...state, notes: [...state.notes, note] };
   }),
   on(setNotes, (state, { notes }) => {
+    return { ...state, notes: notes };
+  }),
+  on(getNotesSuccess, (state, { notes }) => {
     return { ...state, notes: notes };
   })
 );
