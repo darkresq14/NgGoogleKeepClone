@@ -3,7 +3,6 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import firebase from 'firebase/compat/app';
-import { NotesService } from '../notes/notes.service';
 import { startLoading, stopLoading } from '../shared/ui/ui.actions';
 import { UiService } from '../shared/ui/ui.service';
 import { State } from '../store/app.reducer';
@@ -16,8 +15,7 @@ export class AuthService {
     private store: Store<State>,
     private afAuth: AngularFireAuth,
     private router: Router,
-    private uiService: UiService,
-    private notesService: NotesService
+    private uiService: UiService
   ) {}
 
   initAuthListener(): void {
@@ -28,7 +26,6 @@ export class AuthService {
         this.router.navigate(['/']);
       } else {
         this.store.dispatch(setUnauthenticated());
-        this.notesService.cancelSubscriptions();
         this.store.dispatch(setUid({ uid: null }));
         this.router.navigate(['/login']);
       }

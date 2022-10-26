@@ -4,6 +4,12 @@
   </button>
   <a [routerLink]="['/']">My App</a>
   <span class="flex-auto"></span>
+  <!-- To observe loading state -->
+  <mat-spinner
+    *ngIf="isLoading$ | async"
+    [diameter]="40"
+    color="accent"
+  ></mat-spinner>
   <button
     mat-icon-button
     class="material-icons"

@@ -8,9 +8,7 @@ import {
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable, take } from 'rxjs';
-import { Note } from '../notes/note/note.model';
 import { NotesService } from '../notes/notes.service';
-import { createNote } from '../notes/store/notes.actions';
 import { setInputEditMode, toggleInputEditMode } from '../shared/ui/ui.actions';
 import { selectUiIsInputEditMode } from '../shared/ui/ui.selector';
 import { State } from '../store/app.reducer';
@@ -57,10 +55,6 @@ export class InputComponent implements OnInit {
   disableEditMode() {
     this.store.dispatch(setInputEditMode({ isInputEditMode: false }));
     if (this.inputTitle || this.inputTextarea) {
-      // const newNote: Note = {
-      //   title: this.inputTitle,
-      //   content: this.inputTextarea,
-      // };
       this.notesService.finishedEditingNote(
         this.inputTitle,
         this.inputTextarea

@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { selectAuthIsAuthenticated } from 'src/app/auth/auth.selector';
 import { AuthService } from 'src/app/auth/auth.service';
+import { selectUiIsLoading } from 'src/app/shared/ui/ui.selector';
 import { State } from 'src/app/store/app.reducer';
 
 @Component({
@@ -13,9 +14,11 @@ import { State } from 'src/app/store/app.reducer';
 export class HeaderComponent implements OnInit {
   @Output() sidenavToggle = new EventEmitter<void>();
   isAuthenticated$: Observable<boolean>;
+  isLoading$: Observable<boolean>;
 
   constructor(private auth: AuthService, private store: Store<State>) {
     this.isAuthenticated$ = this.store.select(selectAuthIsAuthenticated);
+    this.isLoading$ = this.store.select(selectUiIsLoading);
   }
 
   ngOnInit(): void {}

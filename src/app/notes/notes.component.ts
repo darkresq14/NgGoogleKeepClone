@@ -4,7 +4,6 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { State } from '../store/app.reducer';
 import { Note } from './note/note.model';
-import { NotesService } from './notes.service';
 import { getNotes } from './store/notes.actions';
 import { selectNotesNotes } from './store/notes.selector';
 
@@ -17,7 +16,7 @@ export class NotesComponent implements OnInit {
   notes$: Observable<Note[]>;
   notes: Note[] = [];
 
-  constructor(private store: Store<State>, private notesService: NotesService) {
+  constructor(private store: Store<State>) {
     this.notes$ = this.store.select(selectNotesNotes);
   }
 
@@ -25,9 +24,8 @@ export class NotesComponent implements OnInit {
     this.store
       .select(selectNotesNotes)
       .subscribe((data) => (this.notes = [...data]));
-    this.store.dispatch(getNotes());
 
-    // this.notesService.fetchPersonalNotes();
+    this.store.dispatch(getNotes());
   }
 
   //TODO: add drag and drop directive

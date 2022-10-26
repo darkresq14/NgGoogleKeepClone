@@ -5,13 +5,10 @@ export enum NotesActionTypes {
   GetNotes = '[Notes] GetNotes',
   GetNotesSuccess = '[Notes] GetNotesSuccess',
   GetNotesFailure = '[Notes] GetNotesFailure',
+  CreateNote = '[Notes] CreateNote',
+  CreateNoteSuccess = '[Notes] CreateNoteSuccess',
+  CreateNoteFailure = '[Notes] CreateNoteFailure',
 }
-
-export const createNote = createAction('[Notes] Create Note', props<Note>());
-export const setNotes = createAction(
-  '[Notes] Set Notes',
-  props<{ notes: Note[] }>()
-);
 
 export const getNotes = createAction(NotesActionTypes.GetNotes);
 
@@ -22,5 +19,19 @@ export const getNotesSuccess = createAction(
 
 export const getNotesFailure = createAction(
   NotesActionTypes.GetNotesFailure,
+  props<{ error: Error }>()
+);
+
+export const createNote = createAction(
+  NotesActionTypes.CreateNote,
+  props<Note>()
+);
+
+export const createNoteSuccess = createAction(
+  NotesActionTypes.CreateNoteSuccess
+);
+
+export const createNoteFailure = createAction(
+  NotesActionTypes.CreateNoteFailure,
   props<{ error: Error }>()
 );

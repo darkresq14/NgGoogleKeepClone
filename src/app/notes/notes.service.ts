@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Store } from '@ngrx/store';
-import { map, Observable, Subscription, switchMap, take } from 'rxjs';
+import { map, Observable, switchMap, take } from 'rxjs';
 import { selectAuthUid } from '../auth/auth.selector';
 import { UiService } from '../shared/ui/ui.service';
 import { State } from '../store/app.reducer';
@@ -12,8 +12,6 @@ import { createNote } from './store/notes.actions';
   providedIn: 'root',
 })
 export class NotesService {
-  private fbSub: Subscription[] = [];
-
   userUid$: Observable<string | null>;
 
   constructor(
@@ -60,9 +58,5 @@ export class NotesService {
   finishedEditingNote(title: string, content: string) {
     this.addNoteToFirestore({ title, content });
     this.store.dispatch(createNote({ title, content }));
-  }
-
-  cancelSubscriptions() {
-    this.fbSub.forEach((sub) => sub.unsubscribe());
   }
 }
