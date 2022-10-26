@@ -1,0 +1,9 @@
+mat-card-actions {
+  transition: opacity 0.4s ease-in-out;
+  opacity: 0
+}
+
+mat-card:hover>mat-card-actions {
+  transition: opacity 0.4s ease-in-out;
+  opacity: 1
+}

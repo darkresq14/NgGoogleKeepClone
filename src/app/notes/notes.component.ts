@@ -15,6 +15,7 @@ import { selectNotesNotes } from './store/notes.selector';
 export class NotesComponent implements OnInit {
   notes$: Observable<Note[]>;
   notes: Note[] = [];
+  breakpoint = 2;
 
   constructor(private store: Store<State>) {
     this.notes$ = this.store.select(selectNotesNotes);
@@ -26,6 +27,12 @@ export class NotesComponent implements OnInit {
       .subscribe((data) => (this.notes = [...data]));
 
     this.store.dispatch(getNotes());
+
+    // this.breakpoint = window.innerWidth <= 400 ? 1 : 6;
+  }
+
+  onResize(event: any) {
+    // this.breakpoint = event.target.innerWidth <= 400 ? 1 : 6;
   }
 
   //TODO: add drag and drop directive

@@ -1,12 +1,28 @@
 <app-input></app-input>
-<mat-grid-list
-  cols="2"
-  rowHeight="250px"
+<!-- <mat-grid-list
+  [cols]="breakpoint"
+  rowHeight="2:1"
+  (window:resize)="onResize($event)"
+  class="example-list"
   cdkDropList
   [cdkDropListData]="notes"
   (cdkDropListDropped)="drop($event)"
 >
-  <mat-grid-tile *ngFor="let note of notes" cdkDrag>
-    <app-note [note]="note"></app-note>
+  <mat-grid-tile *ngFor="let note of notes">
+    <app-note class="example-box" cdkDrag [note]="note"></app-note>
   </mat-grid-tile>
-</mat-grid-list>
+</mat-grid-list> -->
+
+<div
+  class="example-list"
+  cdkDropList
+  [cdkDropListData]="notes"
+  (cdkDropListDropped)="drop($event)"
+>
+  <app-note
+    *ngFor="let note of notes"
+    class="example-box"
+    cdkDrag
+    [note]="note"
+  ></app-note>
+</div>
