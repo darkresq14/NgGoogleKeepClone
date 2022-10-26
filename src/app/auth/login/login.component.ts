@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { selectUiIsLoading } from 'src/app/shared/ui/ui.selector';
 import { State } from 'src/app/store/app.reducer';
+import { LoginStart } from '../auth.actions';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -40,10 +41,9 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {}
 
   onSubmit(): void {
-    this.auth.signInWithEmailAndPassword({
-      email: this.email,
-      password: this.password,
-    });
+    this.store.dispatch(
+      LoginStart({ email: this.email, password: this.password })
+    );
   }
 
   loginWithGoogle() {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, exhaustMap, concatMap, mergeMap, catchError, of } from 'rxjs';
+import { map, exhaustMap, catchError, of, take } from 'rxjs';
 import { UiService } from 'src/app/shared/ui/ui.service';
 import { NotesService } from '../notes.service';
 import * as NotesActions from './notes.actions';
@@ -20,11 +20,12 @@ export class NotesEffects {
   ) {}
 
   getNotes$ = createEffect(() => {
-    this.store.dispatch(UiActions.startLoading());
     return this.actions$.pipe(
       ofType(NotesActions.getNotes),
-      exhaustMap(() =>
-        this.notesService.fetchPersonalNotes().pipe(
+      exhaustMap(() => {
+        this.store.dispatch(UiActions.startLoading());
+        return this.notesService.fetchPersonalNotes().pipe(
+          take(1),
           map((notes) => {
             this.store.dispatch(UiActions.stopLoading());
             return NotesActions.getNotesSuccess({ notes });
@@ -34,8 +35,8 @@ export class NotesEffects {
             this.uiService.showSnackbar(error.message, '', 3000);
             return of(NotesActions.getNotesFailure({ error }));
           })
-        )
-      )
+        );
+      })
     );
   });
 }

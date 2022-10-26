@@ -6,7 +6,7 @@ import firebase from 'firebase/compat/app';
 import { startLoading, stopLoading } from '../shared/ui/ui.actions';
 import { UiService } from '../shared/ui/ui.service';
 import { State } from '../store/app.reducer';
-import { setAuthenticated, setUid, setUnauthenticated } from './auth.actions';
+import { AuthSuccess, Logout } from './auth.actions';
 import { AuthData } from './auth.model';
 
 @Injectable({ providedIn: 'root' })
@@ -21,12 +21,10 @@ export class AuthService {
   initAuthListener(): void {
     this.afAuth.authState.subscribe((user) => {
       if (user) {
-        this.store.dispatch(setAuthenticated());
-        this.store.dispatch(setUid({ uid: user.uid }));
+        this.store.dispatch(AuthSuccess({ uid: user.uid }));
         this.router.navigate(['/']);
       } else {
-        this.store.dispatch(setUnauthenticated());
-        this.store.dispatch(setUid({ uid: null }));
+        this.store.dispatch(Logout());
         this.router.navigate(['/login']);
       }
     });
@@ -36,20 +34,6 @@ export class AuthService {
     this.store.dispatch(startLoading());
     this.afAuth
       .createUserWithEmailAndPassword(authData.email, authData.password)
-      .then(() => {
-        this.store.dispatch(stopLoading());
-        this.signInSuccess();
-      })
-      .catch((err) => {
-        this.store.dispatch(stopLoading());
-        this.uiService.showSnackbar(err.message, '', 3000);
-      });
-  }
-
-  signInWithEmailAndPassword(authData: AuthData) {
-    this.store.dispatch(startLoading());
-    this.afAuth
-      .signInWithEmailAndPassword(authData.email, authData.password)
       .then(() => {
         this.store.dispatch(stopLoading());
         this.signInSuccess();

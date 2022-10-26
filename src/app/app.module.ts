@@ -32,6 +32,7 @@ import { NoteComponent } from './notes/note/note.component';
 import { EffectsModule } from '@ngrx/effects';
 import { NotesEffects } from './notes/store/notes.effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { AuthEffects } from './auth/auth.effects';
 
 @NgModule({
   declarations: [
@@ -60,8 +61,11 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
     StoreModule.forRoot(reducers),
-    EffectsModule.forRoot([NotesEffects]),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    EffectsModule.forRoot([NotesEffects, AuthEffects]),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production,
+    }),
   ],
   providers: [ScreenTrackingService, UserTrackingService],
   bootstrap: [AppComponent],

@@ -1,33 +1,26 @@
 import { createReducer, on } from '@ngrx/store';
-import {
-  // LoginStart,
-  setAuthenticated,
-  setUid,
-  setUnauthenticated,
-} from './auth.actions';
+import { AuthFailure, AuthSuccess, Logout } from './auth.actions';
 
 export interface AuthState {
   isAuthenticated: boolean;
   uid: string | null;
+  error: Error | null;
 }
 
 const INITIAL_STATE: Readonly<AuthState> = {
   isAuthenticated: false,
   uid: null,
+  error: null,
 };
-//TODO: merge auth actions
 export const authReducer = createReducer(
   INITIAL_STATE,
-  on(setAuthenticated, (state) => {
-    return { ...state, isAuthenticated: true };
+  on(AuthSuccess, (state, { uid }) => {
+    return { ...state, isAuthenticated: true, uid: uid, error: null };
   }),
-  on(setUnauthenticated, (state) => {
-    return { ...state, isAuthenticated: false };
+  on(AuthFailure, (state, { error }) => {
+    return { ...state, isAuthenticated: false, uid: null, error: error };
   }),
-  on(setUid, (state, { uid }) => {
-    return { ...state, uid: uid };
+  on(Logout, (state) => {
+    return { ...state, isAuthenticated: false, uid: null, error: null };
   })
-  // on(LoginStart, (state) => {
-  //   return { ...state };
-  // })
 );
