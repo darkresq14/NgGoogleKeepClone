@@ -7,10 +7,4 @@ textarea:active {
 
 .inputTextArea {
   resize: none;
-  width: 100%;
-}
-
-::ng-deep .mat-card-header-text {
-  margin: 0px;
-  width: 100%;
 }

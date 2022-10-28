@@ -1,15 +1,27 @@
-<mat-card class="m-2 max-w-xl input-card">
-  <mat-card-title>{{ note.title }}</mat-card-title>
-  <mat-card-content>
-    <textarea
-      class="w-full"
-      readonly
-      cdkTextareaAutosize
-      cdkAutosizeMinRows="1"
-      cdkAutosizeMaxRows="30"
-      >{{ note.content }}</textarea
-    >
-  </mat-card-content>
+<mat-card class="my-3 h-auto" style="max-width: 650px">
+  <form #form="ngForm">
+    <mat-card-title>
+      <input
+        mat-input
+        type="text"
+        placeholder="Title"
+        [(ngModel)]="inputTitle"
+        name="inputTitle"
+      />
+    </mat-card-title>
+    <mat-card-content>
+      <textarea
+        matInput
+        placeholder="Take a note..."
+        class="inputTextArea"
+        cdkTextareaAutosize
+        cdkAutosizeMinRows="1"
+        cdkAutosizeMaxRows="30"
+        [(ngModel)]="inputTextarea"
+        name="inputTextarea"
+      ></textarea>
+    </mat-card-content>
+  </form>
   <mat-card-actions class="flex">
     <button
       mat-icon-button
@@ -67,15 +79,17 @@
       >
     </button>
     <!-- <button mat-icon-button class="material-icons" matTooltip="Undo" alt="Undo">
-      <mat-icon fontSet="material-icons-outlined" class="scale-75"
+        <mat-icon fontSet="material-icons-outlined" class="scale-75"
         >undo</mat-icon
-      >
+        >
+        </button>
+        <button mat-icon-button class="material-icons" matTooltip="Redo" alt="Redo">
+          <mat-icon fontSet="material-icons-outlined" class="scale-75"
+            >redo</mat-icon
+          >
+        </button> -->
+    <button mat-button class="float-right h-10" (click)="disableEditMode()">
+      Close
     </button>
-    <button mat-icon-button class="material-icons" matTooltip="Redo" alt="Redo">
-      <mat-icon fontSet="material-icons-outlined" class="scale-75"
-        >redo</mat-icon
-      >
-    </button>
-    <button mat-button class="float-right h-10">Close</button>  -->
   </mat-card-actions>
 </mat-card>

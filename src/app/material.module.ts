@@ -11,6 +11,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     DragDropModule,
     MatSnackBarModule,
     MatProgressSpinnerModule,
+    MatDialogModule,
   ],
   exports: [
     MatToolbarModule,
@@ -40,6 +42,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     DragDropModule,
     MatSnackBarModule,
     MatProgressSpinnerModule,
+    MatDialogModule,
   ],
 })
 export class MaterialModule {}

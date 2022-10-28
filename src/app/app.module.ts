@@ -33,6 +33,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { NotesEffects } from './notes/store/notes.effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { AuthEffects } from './auth/auth.effects';
+import { EditComponent } from './input/edit/edit.component';
+import { NoteEditDialogComponent } from './notes/note-edit-dialog/note-edit-dialog.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +47,8 @@ import { AuthEffects } from './auth/auth.effects';
     NotesComponent,
     PageNotFoundComponent,
     NoteComponent,
+    EditComponent,
+    NoteEditDialogComponent,
   ],
   imports: [
     BrowserModule,

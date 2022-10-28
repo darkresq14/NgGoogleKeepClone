@@ -2,10 +2,10 @@
   <!-- Edit Mode = false -->
   <mat-card
     class="my-3 h-auto"
-    style="max-width: 650px"
+    style="min-width: 50vw; max-width: 598px"
     *ngIf="!(isEditMode$ | async)"
   >
-    <mat-card-header class="flex">
+    <mat-card-header>
       <mat-card-title>
         <input
           mat-input
@@ -14,141 +14,38 @@
           class="float-left h-10"
           (click)="newTextNote()"
         />
+        <div class="float-right">
+          <button
+            mat-icon-button
+            class="material-icons"
+            matTooltip="New list"
+            alt="New list"
+          >
+            <mat-icon fontSet="material-icons-outlined"
+              >check_box</mat-icon
+            ></button
+          ><button
+            mat-icon-button
+            class="material-icons"
+            matTooltip="New note with drawing"
+            alt="New note with drawing"
+          >
+            <mat-icon fontSet="material-icons-outlined">brush</mat-icon></button
+          ><button
+            mat-icon-button
+            class="material-icons"
+            matTooltip="New note with image"
+            alt="New note with image"
+          >
+            <mat-icon fontSet="material-icons-outlined">image</mat-icon>
+          </button>
+        </div>
       </mat-card-title>
-      <ng-container class="float-right">
-        <button
-          mat-icon-button
-          class="material-icons"
-          matTooltip="New list"
-          alt="New list"
-        >
-          <mat-icon fontSet="material-icons-outlined"
-            >check_box</mat-icon
-          ></button
-        ><button
-          mat-icon-button
-          class="material-icons"
-          matTooltip="New note with drawing"
-          alt="New note with drawing"
-        >
-          <mat-icon fontSet="material-icons-outlined">brush</mat-icon></button
-        ><button
-          mat-icon-button
-          class="material-icons"
-          matTooltip="New note with image"
-          alt="New note with image"
-        >
-          <mat-icon fontSet="material-icons-outlined">image</mat-icon>
-        </button>
-      </ng-container>
     </mat-card-header>
   </mat-card>
 
   <!-- Edit Mode = true -->
-  <div #inputContainer>
-    <mat-card
-      class="my-3 h-auto"
-      style="max-width: 650px"
-      *ngIf="isEditMode$ | async"
-    >
-      <form #form="ngForm">
-        <mat-card-title>
-          <input
-            mat-input
-            type="text"
-            placeholder="Title"
-            [(ngModel)]="inputTitle"
-            name="inputTitle"
-          />
-        </mat-card-title>
-        <mat-card-content>
-          <textarea
-            matInput
-            placeholder="Take a note..."
-            class="inputTextArea"
-            cdkTextareaAutosize
-            cdkAutosizeMinRows="1"
-            cdkAutosizeMaxRows="30"
-            [(ngModel)]="inputTextarea"
-            name="inputTextarea"
-          ></textarea>
-        </mat-card-content>
-      </form>
-      <mat-card-actions class="flex">
-        <button
-          mat-icon-button
-          class="material-icons"
-          matTooltip="Remind me"
-          alt="Remind me"
-        >
-          <mat-icon fontSet="material-icons-outlined" class="scale-75"
-            >add_alert</mat-icon
-          >
-        </button>
-        <button
-          mat-icon-button
-          class="material-icons"
-          matTooltip="Collaborator"
-          alt="Collaborator"
-        >
-          <mat-icon fontSet="material-icons-outlined" class="scale-75"
-            >person_add_alt_1</mat-icon
-          >
-        </button>
-        <button
-          mat-icon-button
-          class="material-icons"
-          matTooltip="Background options"
-          alt="Background options"
-        >
-          <mat-icon fontSet="material-icons-outlined" class="scale-75"
-            >palette</mat-icon
-          >
-        </button>
-        <button
-          mat-icon-button
-          class="material-icons"
-          matTooltip="Add image"
-          alt="Add image"
-        >
-          <mat-icon fontSet="material-icons-outlined" class="scale-75"
-            >image</mat-icon
-          >
-        </button>
-        <button
-          mat-icon-button
-          class="material-icons"
-          matTooltip="Archive"
-          alt="Archive"
-        >
-          <mat-icon fontSet="material-icons-outlined" class="scale-75"
-            >archive</mat-icon
-          >
-        </button>
-        <button
-          mat-icon-button
-          class="material-icons"
-          matTooltip="More"
-          alt="More"
-        >
-          <mat-icon fontSet="material-icons-outlined" class="scale-75"
-            >more_vert</mat-icon
-          >
-        </button>
-        <!-- <button mat-icon-button class="material-icons" matTooltip="Undo" alt="Undo">
-        <mat-icon fontSet="material-icons-outlined" class="scale-75"
-        >undo</mat-icon
-        >
-        </button>
-        <button mat-icon-button class="material-icons" matTooltip="Redo" alt="Redo">
-          <mat-icon fontSet="material-icons-outlined" class="scale-75"
-            >redo</mat-icon
-          >
-        </button> -->
-        <button mat-button class="float-right h-10" (click)="disableEditMode()">
-          Close
-        </button>
-      </mat-card-actions>
-    </mat-card>
+  <div #inputContainer *ngIf="isEditMode$ | async">
+    <app-edit #edit></app-edit>
   </div>
 </div>
