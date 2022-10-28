@@ -25,7 +25,6 @@ export class NotesEffects {
       exhaustMap(() => {
         this.store.dispatch(UiActions.startLoading());
         return this.notesService.fetchPersonalNotes().pipe(
-          take(1),
           map((notes) => {
             this.store.dispatch(UiActions.stopLoading());
             return NotesActions.getNotesSuccess({ notes });
