@@ -1,16 +1,9 @@
-import {
-  Component,
-  ElementRef,
-  HostListener,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { Observable, take } from 'rxjs';
 import { toggleInputEditMode } from '../shared/ui/ui.actions';
-import { selectUiIsInputEditMode } from '../shared/ui/ui.selector';
 import { State } from '../store/app.reducer';
-import { EditComponent } from './edit/edit.component';
+import { selectUiIsInputEditMode } from '../shared/ui/ui.selector';
 
 @Component({
   selector: 'app-input',
@@ -19,26 +12,6 @@ import { EditComponent } from './edit/edit.component';
 })
 export class InputComponent implements OnInit {
   isEditMode$: Observable<boolean>;
-  isEditMode = false;
-
-  @ViewChild('edit') editComponent?: EditComponent;
-  @ViewChild('inputContainer') inputContainer?: ElementRef;
-
-  @HostListener('document:click', ['$event'])
-  clickedOut(event: MouseEvent) {
-    if (this.inputContainer?.nativeElement) {
-      if (
-        !this.inputContainer.nativeElement.contains(event.target) &&
-        this.isEditMode === true
-      ) {
-        this.editComponent!.disableEditMode();
-      }
-
-      this.isEditMode$
-        .pipe(take(1))
-        .subscribe((res) => (this.isEditMode = res));
-    }
-  }
 
   constructor(private store: Store<State>) {
     this.isEditMode$ = store.select(selectUiIsInputEditMode);

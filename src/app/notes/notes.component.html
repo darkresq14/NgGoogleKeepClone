@@ -14,14 +14,14 @@
 </mat-grid-list> -->
 
 <div
-  class="example-list"
+  class="example-list w-full flex flex-col items-center justify-between box-border gap-4"
   cdkDropList
   [cdkDropListData]="notes"
   (cdkDropListDropped)="drop($event)"
 >
   <app-note
     *ngFor="let note of notes"
-    class="example-box"
+    class="example-box flex flex-row items-center justify-between box-border"
     cdkDrag
     [note]="note"
     (click)="openEditDialog(note)"

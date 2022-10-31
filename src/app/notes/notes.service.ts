@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Store } from '@ngrx/store';
-import { map, Observable, switchMap, take } from 'rxjs';
+import { map, Observable, switchMap, take, catchError, of } from 'rxjs';
 import { selectAuthUid } from '../auth/auth.selector';
 import { UiService } from '../shared/ui/ui.service';
 import { State } from '../store/app.reducer';
 import { Note } from './note/note.model';
-import { createNote } from './store/notes.actions';
 
 @Injectable({
   providedIn: 'root',
@@ -14,15 +13,11 @@ import { createNote } from './store/notes.actions';
 export class NotesService {
   userUid$: Observable<string | null>;
 
-  constructor(
-    private store: Store<State>,
-    private db: AngularFirestore,
-    private uiService: UiService
-  ) {
+  constructor(private store: Store<State>, private db: AngularFirestore) {
     this.userUid$ = this.store.select(selectAuthUid);
   }
 
-  fetchPersonalNotes() {
+  fetchPersonalNotesFirestore() {
     return this.userUid$.pipe(
       take(1),
       switchMap((uid) => {
@@ -38,25 +33,46 @@ export class NotesService {
     );
   }
 
-  addNoteToFirestore(note: Note) {
-    this.userUid$.pipe(take(1)).subscribe((uid) => {
-      const noteToAdd = {
-        title: note.title,
-        content: note.content,
-        type: 'normal',
-        date: new Date(),
-      };
+  createOrEditNoteFirestore(note: Note) {
+    return this.userUid$.pipe(
+      take(1),
+      switchMap((uid) => {
+        console.log(note);
+        if (note.id) {
+          return this.db.collection(uid!).doc(note.id).set({
+            title: note.title,
+            content: note.content,
+            date: new Date(),
+          });
+        }
+        const noteToAdd = {
+          title: note.title,
+          content: note.content,
+          type: 'normal',
+          date: new Date(),
+        };
 
-      if (uid) {
-        this.db.collection(uid).add(noteToAdd);
-      } else {
-        this.uiService.showSnackbar('Error saving Note', '', 3000);
-      }
-    });
+        return this.db.collection(uid!).add(noteToAdd);
+      }),
+      catchError((err) => {
+        return of(err);
+      })
+    );
   }
 
-  finishedEditingNote(title: string, content: string) {
-    this.addNoteToFirestore({ title, content });
-    this.store.dispatch(createNote({ title, content }));
+  createNoteFirestore(note: Note) {
+    return this.userUid$.pipe(
+      take(1),
+      switchMap((uid) => {
+        const noteToAdd = {
+          title: note.title,
+          content: note.content,
+          type: 'normal',
+          date: new Date(),
+        };
+
+        return this.db.collection(uid!).add(noteToAdd);
+      })
+    );
   }
 }

@@ -1,6 +1,12 @@
 import { createReducer, on } from '@ngrx/store';
 import { Note } from '../note/note.model';
-import { createNote, getNotesFailure, getNotesSuccess } from './notes.actions';
+import {
+  createOrEditNote,
+  createOrEditNoteFailure,
+  createOrEditNoteSuccess,
+  getNotesFailure,
+  getNotesSuccess,
+} from './notes.actions';
 
 export interface NotesState {
   notes: Note[];
@@ -22,7 +28,10 @@ export const notesReducer = createReducer(
   on(getNotesFailure, (state, { error }) => {
     return { ...state, notes: [], error: error };
   }),
-  on(createNote, (state, note: Note) => {
-    return { ...state, notes: [...state.notes, note] };
+  on(createOrEditNoteSuccess, (state) => {
+    return { ...state, error: null };
+  }),
+  on(createOrEditNoteFailure, (state, { error }) => {
+    return { ...state, error: error };
   })
 );

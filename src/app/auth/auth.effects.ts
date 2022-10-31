@@ -45,6 +45,7 @@ export class AuthEffects {
     );
   });
 
+  // TODO: Haven't finished register / login with google and logout
   authLogout$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(AuthActions.AuthActionTypes.Logout),

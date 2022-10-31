@@ -45,6 +45,9 @@ export class NotesComponent implements OnInit {
   }
 
   openEditDialog(note: Note) {
-    this.dialog.open(NoteEditDialogComponent, { data: { note: note } });
+    this.dialog.open(NoteEditDialogComponent, {
+      data: { note: note },
+      panelClass: 'custom-dialog-container',
+    });
   }
 }

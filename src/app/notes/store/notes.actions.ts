@@ -5,9 +5,15 @@ export enum NotesActionTypes {
   GetNotes = '[Notes] GetNotes',
   GetNotesSuccess = '[Notes] GetNotesSuccess',
   GetNotesFailure = '[Notes] GetNotesFailure',
-  CreateNote = '[Notes] CreateNote',
-  CreateNoteSuccess = '[Notes] CreateNoteSuccess',
-  CreateNoteFailure = '[Notes] CreateNoteFailure',
+  CreateOrEditNote = '[Notes] CreateOrEditNote',
+  CreateOrEditNoteSuccess = '[Notes] CreateOrEditNoteSuccess',
+  CreateOrEditNoteFailure = '[Notes] CreateOrEditNoteFailure',
+  // CreateNote = '[Notes] CreateNote',
+  // CreateNoteSuccess = '[Notes] CreateNoteSuccess',
+  // CreateNoteFailure = '[Notes] CreateNoteFailure',
+  // EditNote = '[Notes] EditNote',
+  // EditNoteSuccess = '[Notes] EditNoteSuccess',
+  // EditNoteFailure = '[Notes] EditNoteFailure',
 }
 
 export const getNotes = createAction(NotesActionTypes.GetNotes);
@@ -22,16 +28,39 @@ export const getNotesFailure = createAction(
   props<{ error: Error }>()
 );
 
-export const createNote = createAction(
-  NotesActionTypes.CreateNote,
+export const createOrEditNote = createAction(
+  NotesActionTypes.CreateOrEditNote,
   props<Note>()
 );
 
-export const createNoteSuccess = createAction(
-  NotesActionTypes.CreateNoteSuccess
+export const createOrEditNoteSuccess = createAction(
+  NotesActionTypes.CreateOrEditNoteSuccess
 );
 
-export const createNoteFailure = createAction(
-  NotesActionTypes.CreateNoteFailure,
+export const createOrEditNoteFailure = createAction(
+  NotesActionTypes.CreateOrEditNoteFailure,
   props<{ error: Error }>()
 );
+
+// export const createNote = createAction(
+//   NotesActionTypes.CreateNote,
+//   props<Note>()
+// );
+
+// export const createNoteSuccess = createAction(
+//   NotesActionTypes.CreateNoteSuccess
+// );
+
+// export const createNoteFailure = createAction(
+//   NotesActionTypes.CreateNoteFailure,
+//   props<{ error: Error }>()
+// );
+
+// export const editNote = createAction(NotesActionTypes.EditNote, props<Note>());
+
+// export const editNoteSuccess = createAction(NotesActionTypes.EditNoteSuccess);
+
+// export const editNoteFailure = createAction(
+//   NotesActionTypes.EditNoteFailure,
+//   props<{ error: Error }>()
+// );

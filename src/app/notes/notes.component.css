@@ -1,20 +1,3 @@
-.example-list {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
-}
-
-.example-box {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
-}
-
 .cdk-drag-preview {
   box-sizing: border-box;
   border-radius: 4px;

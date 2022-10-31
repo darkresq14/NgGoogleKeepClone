@@ -1,7 +1,7 @@
-<div class="flex justify-center items-center box-border">
+<div class="flex justify-center items-center box-border my-3">
   <!-- Edit Mode = false -->
   <mat-card
-    class="my-3 h-auto input-card"
+    class="h-auto input-card"
     style="min-width: 50vw; max-width: 598px"
     *ngIf="!(isEditMode$ | async)"
   >
@@ -45,7 +45,5 @@
   </mat-card>
 
   <!-- Edit Mode = true -->
-  <div #inputContainer *ngIf="isEditMode$ | async">
-    <app-edit #edit></app-edit>
-  </div>
+  <app-edit *ngIf="isEditMode$ | async"></app-edit>
 </div>

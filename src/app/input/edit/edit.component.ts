@@ -1,10 +1,20 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  Input,
+  HostListener,
+  ElementRef,
+} from '@angular/core';
 import { Store } from '@ngrx/store';
-import { NotesService } from 'src/app/notes/notes.service';
+import { Observable, take } from 'rxjs';
 import { setInputEditMode } from 'src/app/shared/ui/ui.actions';
 import { NgForm } from '@angular/forms';
 import { State } from 'src/app/store/app.reducer';
 import { DialogData } from 'src/app/notes/note-edit-dialog/note-edit-dialog.component';
+import { selectUiIsInputEditMode } from 'src/app/shared/ui/ui.selector';
+import { Note } from 'src/app/notes/note/note.model';
+import { createOrEditNote } from 'src/app/notes/store/notes.actions';
 
 @Component({
   selector: 'app-edit',
@@ -14,16 +24,38 @@ import { DialogData } from 'src/app/notes/note-edit-dialog/note-edit-dialog.comp
 export class EditComponent implements OnInit {
   inputTextarea: string = '';
   inputTitle: string = '';
+  note?: Note;
+
+  isEditMode$: Observable<boolean>;
+  isEditMode: boolean = false;
+
   @Input() data?: DialogData;
   @ViewChild('form') form?: NgForm;
 
-  constructor(
-    private store: Store<State>,
-    private notesService: NotesService
-  ) {}
+  @HostListener('document:click', ['$event'])
+  clickedOut(event: MouseEvent) {
+    if (this.eRef?.nativeElement) {
+      if (
+        !this.eRef?.nativeElement.contains(event.target) &&
+        this.isEditMode === true
+      ) {
+        this.disableEditMode();
+      }
+
+      this.isEditMode$
+        .pipe(take(1))
+        .subscribe((res) => (this.isEditMode = res));
+    }
+  }
+
+  constructor(private store: Store<State>, private eRef: ElementRef) {
+    this.isEditMode$ = store.select(selectUiIsInputEditMode);
+  }
 
   ngOnInit(): void {
     if (this.data?.note) {
+      this.note = this.data.note;
+
       if (this.data.note.title) {
         this.inputTitle = this.data.note.title;
       }
@@ -34,12 +66,27 @@ export class EditComponent implements OnInit {
   }
 
   disableEditMode() {
+    console.log('disabledEditing');
+
     this.store.dispatch(setInputEditMode({ isInputEditMode: false }));
     if (this.inputTitle || this.inputTextarea) {
-      this.notesService.finishedEditingNote(
-        this.inputTitle,
-        this.inputTextarea
-      );
+      if (this.note) {
+        this.store.dispatch(
+          createOrEditNote({
+            ...this.note,
+            title: this.inputTitle,
+            content: this.inputTextarea,
+          })
+        );
+      } else {
+        this.store.dispatch(
+          createOrEditNote({
+            title: this.inputTitle,
+            content: this.inputTextarea,
+          })
+        );
+      }
+
       if (this.form) {
         this.form.reset();
       }
