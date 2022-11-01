@@ -1,13 +1,3 @@
-mat-card-actions, .hide-actions {
-  transition: opacity 0.4s ease-in-out;
-  opacity: 0
-}
-
-mat-card:hover>mat-card-actions, .show-actions {
-  transition: opacity 0.4s ease-in-out;
-  opacity: 1
-}
-
 input:focus,
 input:active,
 textarea:focus,
@@ -18,4 +8,23 @@ textarea:active {
 .inputTextArea {
   resize: none;
   width: 100%;
+}
+
+::ng-deep .mat-form-field-wrapper,
+::ng-deep .mat-form-field-label-wrapper,
+::ng-deep .mat-form-field-infix,
+::ng-deep .mat-chip-list {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+::ng-deep .mat-form-field-wrapper,
+::ng-deep .mat-form-field-label-wrapper {
+  padding-bottom: 0.125rem !important;
+}
+
+
+::ng-deep .mat-form-field-underline {
+  display: none
 }

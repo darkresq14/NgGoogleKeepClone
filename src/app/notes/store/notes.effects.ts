@@ -89,7 +89,6 @@ export class NotesEffects {
     return this.actions$.pipe(
       ofType(NotesActions.deleteNote),
       exhaustMap((props) => {
-        console.log('entered effect');
         this.store.dispatch(UiActions.startLoading());
         return this.notesService.deleteNoteFirestore(props.id).pipe(
           map(() => {

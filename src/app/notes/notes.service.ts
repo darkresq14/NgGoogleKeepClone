@@ -40,15 +40,18 @@ export class NotesService {
           return this.db.collection(uid!).doc(note.id).set({
             title: note.title,
             content: note.content,
+            labels: note.labels,
             date: new Date(),
           });
         }
         const noteToAdd = {
           title: note.title,
           content: note.content,
+          labels: note.labels ? note.labels : [],
           type: 'normal',
           date: new Date(),
         };
+        console.log(noteToAdd);
         return this.db.collection(uid!).add(noteToAdd);
       }),
       catchError((err) => {

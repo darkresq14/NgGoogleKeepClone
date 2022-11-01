@@ -66,8 +66,6 @@ export class EditComponent implements OnInit {
   }
 
   disableEditMode() {
-    console.log('disabledEditing');
-
     this.store.dispatch(setInputEditMode({ isInputEditMode: false }));
     if (this.inputTitle || this.inputTextarea) {
       if (this.note) {

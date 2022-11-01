@@ -1,86 +1,118 @@
-<mat-card class="input-card" (click)="openEditDialog(note)">
-  <mat-card-title>{{ note.title }}</mat-card-title>
-  <mat-card-content>
-    <textarea
-      class="w-full"
-      readonly
-      cdkTextareaAutosize
-      cdkAutosizeMinRows="1"
-      cdkAutosizeMaxRows="30"
-      >{{ note.content }}</textarea
-    >
-  </mat-card-content>
-  <mat-card-actions
-    class="flex"
-    [ngClass]="{ 'show-actions': menuTrigger.menuOpen }"
-  >
-    <button
-      mat-icon-button
-      class="material-icons"
-      matTooltip="Remind me"
-      alt="Remind me"
-    >
-      <mat-icon fontSet="material-icons-outlined" class="scale-75"
-        >add_alert</mat-icon
+<mat-card class="input-card group">
+  <div (click)="openEditDialog(note)">
+    <mat-card-title>{{ note.title }}</mat-card-title>
+    <mat-card-content>
+      <textarea
+        class="w-full"
+        readonly
+        cdkTextareaAutosize
+        cdkAutosizeMinRows="1"
+        cdkAutosizeMaxRows="30"
+        >{{ note.content }}</textarea
       >
-    </button>
-    <button
-      mat-icon-button
-      class="material-icons"
-      matTooltip="Collaborator"
-      alt="Collaborator"
+    </mat-card-content>
+  </div>
+  <mat-card-actions class="flex flex-col">
+    <div
+      id="labels"
+      *ngIf="(note.labels && note.labels.length > 0) || showLabels"
     >
-      <mat-icon fontSet="material-icons-outlined" class="scale-75"
-        >person_add_alt_1</mat-icon
-      >
-    </button>
-    <button
-      mat-icon-button
-      class="material-icons"
-      matTooltip="Background options"
-      alt="Background options"
+      <mat-form-field class="w-full">
+        <mat-label
+          class="opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          >Labels</mat-label
+        >
+        <mat-chip-list #chipList aria-label="Label selection" class="w-full">
+          <mat-chip *ngFor="let label of note.labels" (removed)="remove(label)">
+            {{ label }}
+            <button matChipRemove>
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
+          <input
+            class="opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity duration-300"
+            placeholder="New label..."
+            [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+            (matChipInputTokenEnd)="add($event)"
+          />
+        </mat-chip-list>
+      </mat-form-field>
+    </div>
+    <div
+      id="buttons"
+      class="flex opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+      [ngClass]="{ 'opacity-100': menuTrigger.menuOpen }"
     >
-      <mat-icon fontSet="material-icons-outlined" class="scale-75"
-        >palette</mat-icon
+      <button
+        mat-icon-button
+        class="material-icons"
+        matTooltip="Remind me"
+        alt="Remind me"
       >
-    </button>
-    <button
-      mat-icon-button
-      class="material-icons"
-      matTooltip="Add image"
-      alt="Add image"
-    >
-      <mat-icon fontSet="material-icons-outlined" class="scale-75"
-        >image</mat-icon
+        <mat-icon fontSet="material-icons-outlined" class="scale-75"
+          >add_alert</mat-icon
+        >
+      </button>
+      <button
+        mat-icon-button
+        class="material-icons"
+        matTooltip="Collaborator"
+        alt="Collaborator"
       >
-    </button>
-    <button
-      mat-icon-button
-      class="material-icons"
-      matTooltip="Archive"
-      alt="Archive"
-    >
-      <mat-icon fontSet="material-icons-outlined" class="scale-75"
-        >archive</mat-icon
+        <mat-icon fontSet="material-icons-outlined" class="scale-75"
+          >person_add_alt_1</mat-icon
+        >
+      </button>
+      <button
+        mat-icon-button
+        class="material-icons"
+        matTooltip="Background options"
+        alt="Background options"
       >
-    </button>
-    <button
-      mat-icon-button
-      class="material-icons"
-      matTooltip="More"
-      alt="More"
-      [matMenuTriggerFor]="menu"
-      #menuTrigger="matMenuTrigger"
-    >
-      <mat-icon fontSet="material-icons-outlined" class="scale-75"
-        >more_vert</mat-icon
+        <mat-icon fontSet="material-icons-outlined" class="scale-75"
+          >palette</mat-icon
+        >
+      </button>
+      <button
+        mat-icon-button
+        class="material-icons"
+        matTooltip="Add image"
+        alt="Add image"
       >
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="onDeleteNote()">Delete note</button>
-        <button mat-menu-item>Add label</button>
-        <button mat-menu-item>Add drawing</button>
-        <button mat-menu-item>Make a copy</button>
-      </mat-menu>
-    </button>
+        <mat-icon fontSet="material-icons-outlined" class="scale-75"
+          >image</mat-icon
+        >
+      </button>
+      <button
+        mat-icon-button
+        class="material-icons"
+        matTooltip="Archive"
+        alt="Archive"
+      >
+        <mat-icon fontSet="material-icons-outlined" class="scale-75"
+          >archive</mat-icon
+        >
+      </button>
+      <button
+        mat-icon-button
+        class="material-icons"
+        matTooltip="More"
+        alt="More"
+        [matMenuTriggerFor]="menu"
+        #menuTrigger="matMenuTrigger"
+      >
+        <mat-icon fontSet="material-icons-outlined" class="scale-75"
+          >more_vert</mat-icon
+        >
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="onDeleteNote()">Delete note</button>
+          <button mat-menu-item (click)="onShowLabels()">Add label</button>
+          <button mat-menu-item>Add drawing</button>
+          <button mat-menu-item>Make a copy</button>
+        </mat-menu>
+      </button>
+    </div>
   </mat-card-actions>
 </mat-card>

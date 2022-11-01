@@ -3,6 +3,7 @@ export interface Note {
   title?: string;
   content?: string;
   type?: 'normal' | 'list' | 'drawing' | 'image';
+  labels?: string[];
   selected?: boolean;
   pinned?: boolean;
   archived?: boolean;
