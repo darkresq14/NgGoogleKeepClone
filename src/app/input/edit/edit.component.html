@@ -74,21 +74,45 @@
         >archive</mat-icon
       >
     </button>
-    <button mat-icon-button class="material-icons" matTooltip="More" alt="More">
+    <button
+      mat-icon-button
+      class="material-icons"
+      matTooltip="More"
+      alt="More"
+      [matMenuTriggerFor]="menu"
+    >
       <mat-icon fontSet="material-icons-outlined" class="scale-75"
         >more_vert</mat-icon
       >
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>Delete note</button>
+        <button mat-menu-item>Add label</button>
+        <button mat-menu-item>Add drawing</button>
+        <button mat-menu-item>Make a copy</button>
+      </mat-menu>
     </button>
-    <!-- <button mat-icon-button class="material-icons" matTooltip="Undo" alt="Undo">
-        <mat-icon fontSet="material-icons-outlined" class="scale-75"
+    <button
+      mat-icon-button
+      class="material-icons"
+      matTooltip="Undo"
+      alt="Undo"
+      disabled
+    >
+      <mat-icon fontSet="material-icons-outlined" class="scale-75"
         >undo</mat-icon
-        >
-        </button>
-        <button mat-icon-button class="material-icons" matTooltip="Redo" alt="Redo">
-          <mat-icon fontSet="material-icons-outlined" class="scale-75"
-            >redo</mat-icon
-          >
-        </button> -->
+      >
+    </button>
+    <button
+      mat-icon-button
+      class="material-icons"
+      matTooltip="Redo"
+      alt="Redo"
+      disabled
+    >
+      <mat-icon fontSet="material-icons-outlined" class="scale-75"
+        >redo</mat-icon
+      >
+    </button>
     <button
       *ngIf="!note"
       mat-button

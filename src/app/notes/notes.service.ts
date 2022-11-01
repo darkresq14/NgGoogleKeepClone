@@ -3,7 +3,6 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Store } from '@ngrx/store';
 import { map, Observable, switchMap, take, catchError, of } from 'rxjs';
 import { selectAuthUid } from '../auth/auth.selector';
-import { UiService } from '../shared/ui/ui.service';
 import { State } from '../store/app.reducer';
 import { Note } from './note/note.model';
 
@@ -37,7 +36,6 @@ export class NotesService {
     return this.userUid$.pipe(
       take(1),
       switchMap((uid) => {
-        console.log(note);
         if (note.id) {
           return this.db.collection(uid!).doc(note.id).set({
             title: note.title,
@@ -51,7 +49,6 @@ export class NotesService {
           type: 'normal',
           date: new Date(),
         };
-
         return this.db.collection(uid!).add(noteToAdd);
       }),
       catchError((err) => {
@@ -60,19 +57,28 @@ export class NotesService {
     );
   }
 
-  createNoteFirestore(note: Note) {
+  deleteNoteFirestore(id: string) {
     return this.userUid$.pipe(
       take(1),
       switchMap((uid) => {
-        const noteToAdd = {
-          title: note.title,
-          content: note.content,
-          type: 'normal',
-          date: new Date(),
-        };
-
-        return this.db.collection(uid!).add(noteToAdd);
+        return this.db.collection(uid!).doc(id).delete();
       })
     );
   }
+
+  // createNoteFirestore(note: Note) {
+  //   return this.userUid$.pipe(
+  //     take(1),
+  //     switchMap((uid) => {
+  //       const noteToAdd = {
+  //         title: note.title,
+  //         content: note.content,
+  //         type: 'normal',
+  //         date: new Date(),
+  //       };
+
+  //       return this.db.collection(uid!).add(noteToAdd);
+  //     })
+  //   );
+  // }
 }

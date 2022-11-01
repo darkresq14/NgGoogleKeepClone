@@ -1,9 +1,9 @@
-mat-card-actions {
+mat-card-actions, .hide-actions {
   transition: opacity 0.4s ease-in-out;
   opacity: 0
 }
 
-mat-card:hover>mat-card-actions {
+mat-card:hover>mat-card-actions, .show-actions {
   transition: opacity 0.4s ease-in-out;
   opacity: 1
 }

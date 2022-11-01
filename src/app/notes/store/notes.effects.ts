@@ -1,13 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import {
-  map,
-  exhaustMap,
-  catchError,
-  of,
-  withLatestFrom,
-  switchMap,
-} from 'rxjs';
+import { map, exhaustMap, catchError, of } from 'rxjs';
 import { UiService } from 'src/app/shared/ui/ui.service';
 import { NotesService } from '../notes.service';
 import * as NotesActions from './notes.actions';
@@ -15,8 +8,6 @@ import * as UiActions from '../../shared/ui/ui.actions';
 import { State } from 'src/app/store/app.reducer';
 import { Store } from '@ngrx/store';
 import { Note } from '../note/note.model';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { selectAuthUid } from 'src/app/auth/auth.selector';
 
 @Injectable({
   providedIn: 'root',
@@ -75,15 +66,47 @@ export class NotesEffects {
       exhaustMap((props: Note) => {
         this.store.dispatch(UiActions.startLoading());
         return this.notesService.createOrEditNoteFirestore(props).pipe(
-          map((a) => {
+          map(() => {
             this.store.dispatch(UiActions.stopLoading());
             return NotesActions.createOrEditNoteSuccess();
           }),
           catchError((error) => {
             this.store.dispatch(UiActions.stopLoading());
+            this.uiService.showSnackbar(error.message, '', 3000);
             return of(NotesActions.createOrEditNoteFailure(error));
           })
         );
+      }),
+      catchError((error) => {
+        this.store.dispatch(UiActions.stopLoading());
+        this.uiService.showSnackbar(error.message, '', 3000);
+        return of(NotesActions.createOrEditNoteFailure(error));
+      })
+    );
+  });
+
+  deleteNote$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(NotesActions.deleteNote),
+      exhaustMap((props) => {
+        console.log('entered effect');
+        this.store.dispatch(UiActions.startLoading());
+        return this.notesService.deleteNoteFirestore(props.id).pipe(
+          map(() => {
+            this.store.dispatch(UiActions.stopLoading());
+            return NotesActions.deleteNoteSuccess();
+          }),
+          catchError((error) => {
+            this.store.dispatch(UiActions.stopLoading());
+            this.uiService.showSnackbar(error.message, '', 3000);
+            return of(NotesActions.deleteNoteFailure(error));
+          })
+        );
+      }),
+      catchError((error) => {
+        this.store.dispatch(UiActions.stopLoading());
+        this.uiService.showSnackbar(error.message, '', 3000);
+        return of(NotesActions.deleteNoteFailure(error));
       })
     );
   });

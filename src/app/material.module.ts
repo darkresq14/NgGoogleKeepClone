@@ -12,6 +12,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   imports: [
@@ -28,6 +29,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatSnackBarModule,
     MatProgressSpinnerModule,
     MatDialogModule,
+    MatMenuModule,
   ],
   exports: [
     MatToolbarModule,
@@ -43,6 +45,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatSnackBarModule,
     MatProgressSpinnerModule,
     MatDialogModule,
+    MatMenuModule,
   ],
 })
 export class MaterialModule {}

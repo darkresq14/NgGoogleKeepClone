@@ -14,6 +14,9 @@ export enum NotesActionTypes {
   // EditNote = '[Notes] EditNote',
   // EditNoteSuccess = '[Notes] EditNoteSuccess',
   // EditNoteFailure = '[Notes] EditNoteFailure',
+  DeleteNote = '[Notes] DeleteNote',
+  DeleteNoteSuccess = '[Notes] DeleteNoteSuccess',
+  DeleteNoteFailure = '[Notes] DeleteNoteFailure',
 }
 
 export const getNotes = createAction(NotesActionTypes.GetNotes);
@@ -64,3 +67,17 @@ export const createOrEditNoteFailure = createAction(
 //   NotesActionTypes.EditNoteFailure,
 //   props<{ error: Error }>()
 // );
+
+export const deleteNote = createAction(
+  NotesActionTypes.DeleteNote,
+  props<{ id: string }>()
+);
+
+export const deleteNoteSuccess = createAction(
+  NotesActionTypes.DeleteNoteSuccess
+);
+
+export const deleteNoteFailure = createAction(
+  NotesActionTypes.DeleteNoteFailure,
+  props<{ error: Error }>()
+);
