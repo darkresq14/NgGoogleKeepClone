@@ -28,3 +28,7 @@ textarea:active {
 ::ng-deep .mat-form-field-underline {
   display: none
 }
+
+::ng-deep .mat-card-content {
+  margin-bottom: 0;
+}

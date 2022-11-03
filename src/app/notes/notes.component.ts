@@ -14,7 +14,7 @@ import { selectNotesNotes } from './store/notes.selector';
 })
 export class NotesComponent implements OnInit {
   notes$: Observable<Note[]>;
-  notes: Note[] = [];
+  // notes: Note[] = [];
   breakpoint = 2;
 
   constructor(private store: Store<State>) {
@@ -22,9 +22,9 @@ export class NotesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store
-      .select(selectNotesNotes)
-      .subscribe((data) => (this.notes = [...data]));
+    // this.store
+    //   .select(selectNotesNotes)
+    //   .subscribe((data) => (this.notes = [...data]));
 
     this.store.dispatch(getNotes());
 
@@ -37,8 +37,8 @@ export class NotesComponent implements OnInit {
 
   //TODO: add drag and drop directive
 
-  drop(event: CdkDragDrop<Note[]>) {
-    console.log('Drag and Drop: ', event);
-    moveItemInArray(this.notes, event.previousIndex, event.currentIndex);
-  }
+  // drop(event: CdkDragDrop<Note[]>) {
+  //   console.log('Drag and Drop: ', event);
+  //   moveItemInArray(this.notes, event.previousIndex, event.currentIndex);
+  // }
 }

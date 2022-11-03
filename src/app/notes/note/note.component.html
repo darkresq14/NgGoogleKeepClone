@@ -1,4 +1,4 @@
-<mat-card class="input-card group">
+<mat-card class="relative input-card group">
   <div (click)="openEditDialog(note)">
     <mat-card-title>{{ note.title }}</mat-card-title>
     <mat-card-content>
@@ -11,6 +11,28 @@
         >{{ note.content }}</textarea
       >
     </mat-card-content>
+  </div>
+  <div
+    id="pin-container"
+    class="absolute right-0 top-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+  >
+    <button
+      mat-icon-button
+      class="material-icons m-auto"
+      [matTooltip]="note.pinned ? 'Unpin note' : 'Pin note'"
+      alt="Pin / Unpin note"
+      (click)="onPinClicked()"
+    >
+      <mat-icon
+        *ngIf="!note.pinned"
+        fontSet="material-icons-outlined"
+        class="scale-75"
+        >push_pin</mat-icon
+      >
+      <mat-icon *ngIf="note.pinned" fontSet="material-icons" class="scale-75"
+        >push_pin</mat-icon
+      >
+    </button>
   </div>
   <mat-card-actions class="flex flex-col">
     <div

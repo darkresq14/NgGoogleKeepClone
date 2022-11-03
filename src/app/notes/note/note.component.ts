@@ -42,6 +42,15 @@ export class NoteComponent implements OnInit {
     this.showLabels = true;
   }
 
+  onPinClicked() {
+    this.store.dispatch(
+      createOrEditNote({
+        ...this.note,
+        pinned: this.note.pinned ? false : true,
+      })
+    );
+  }
+
   addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
 

@@ -41,6 +41,7 @@ export class NotesService {
             title: note.title,
             content: note.content,
             labels: note.labels,
+            pinned: note.pinned,
             date: new Date(),
           });
         }
@@ -48,6 +49,7 @@ export class NotesService {
           title: note.title,
           content: note.content,
           labels: note.labels ? note.labels : [],
+          pinned: note.pinned ? note.pinned : false,
           type: 'normal',
           date: new Date(),
         };
@@ -84,4 +86,6 @@ export class NotesService {
   //     })
   //   );
   // }
+
+  // TODO: Check why Redux fires twice on every modification
 }

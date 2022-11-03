@@ -35,6 +35,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { AuthEffects } from './auth/auth.effects';
 import { EditComponent } from './input/edit/edit.component';
 import { NoteEditDialogComponent } from './notes/note-edit-dialog/note-edit-dialog.component';
+import { NotesFilterPipe } from './notes/notes-filter.pipe';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { NoteEditDialogComponent } from './notes/note-edit-dialog/note-edit-dial
     NoteComponent,
     EditComponent,
     NoteEditDialogComponent,
+    NotesFilterPipe,
   ],
   imports: [
     BrowserModule,

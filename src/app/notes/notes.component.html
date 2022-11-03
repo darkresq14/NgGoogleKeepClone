@@ -13,16 +13,45 @@
   </mat-grid-tile>
 </mat-grid-list> -->
 
+<!-- To be added to container div
+cdkDropList
+[cdkDropListData]="notes"
+(cdkDropListDropped)="drop($event)"
+To be added to app-note
+cdkDrag -->
+
 <div
   class="example-list w-full flex flex-col items-center justify-between box-border gap-4"
-  cdkDropList
-  [cdkDropListData]="notes"
-  (cdkDropListDropped)="drop($event)"
+  *ngIf="(notes$ | notesFilter: true | async)!.length > 0"
 >
+  <div
+    class="input-card text-left px-4 mat-body-strong opacity-80"
+    *ngIf="(notes$ | notesFilter: false | async)!.length > 0"
+  >
+    Pinned
+  </div>
   <app-note
-    *ngFor="let note of notes"
+    *ngFor="let note of notes$ | notesFilter: true | async"
     class="example-box flex flex-row items-center justify-between box-border"
-    cdkDrag
     [note]="note"
   ></app-note>
 </div>
+
+<div
+  class="example-list w-full flex flex-col items-center justify-between box-border gap-4"
+  *ngIf="(notes$ | notesFilter: false | async)!.length > 0"
+>
+  <div
+    class="input-card text-left px-4 mt-4 mat-body-strong opacity-80"
+    *ngIf="(notes$ | notesFilter: true | async)!.length > 0"
+  >
+    Other
+  </div>
+  <app-note
+    *ngFor="let note of notes$ | notesFilter: false | async"
+    class="example-box flex flex-row items-center justify-between box-border"
+    [note]="note"
+  ></app-note>
+</div>
+
+<div class="input-card my-4"></div>
