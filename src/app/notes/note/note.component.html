@@ -1,5 +1,6 @@
 <mat-card
-  class="relative input-card group bg-no-repeat bg-bottom bg-cover"
+  class="relative input-card group bg-no-repeat bg-right-bottom"
+  style="background-size: 100% auto"
   [ngStyle]="getBackground()"
 >
   <div (click)="openEditDialog(note)">
@@ -10,7 +11,7 @@
         readonly
         cdkTextareaAutosize
         cdkAutosizeMinRows="1"
-        cdkAutosizeMaxRows="30"
+        cdkAutosizeMaxRows="20"
         >{{ note.content }}</textarea
       >
     </mat-card-content>

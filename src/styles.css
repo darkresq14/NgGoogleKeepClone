@@ -17,6 +17,7 @@ body {
 
 .input-card {
   width: 576px;
+  max-height: 576px
 }
 
 .custom-dialog-container .mat-dialog-container {
