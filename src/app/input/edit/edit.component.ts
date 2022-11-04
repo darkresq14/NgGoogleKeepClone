@@ -90,4 +90,6 @@ export class EditComponent implements OnInit {
       }
     }
   }
+
+  // TODO: Add Pin functionality to Edit
 }

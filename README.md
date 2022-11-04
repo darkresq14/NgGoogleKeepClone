@@ -24,6 +24,8 @@ Pinning Notes
 - [x] Labels
 - [X] Pinned Notes
   - [ ] Add option for pinning on new note
+- [X] Modify Background
+  - [ ] Add option for background on new note and on edit note
 - [ ] Collaborators
 - [ ] Multiple select Notes
 - [ ] Grid View

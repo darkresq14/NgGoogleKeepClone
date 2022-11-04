@@ -1,9 +1,12 @@
-<mat-card class="relative input-card group">
+<mat-card
+  class="relative input-card group bg-no-repeat bg-bottom bg-cover"
+  [ngStyle]="getBackground()"
+>
   <div (click)="openEditDialog(note)">
     <mat-card-title>{{ note.title }}</mat-card-title>
     <mat-card-content>
       <textarea
-        class="w-full"
+        class="w-full bg-inherit"
         readonly
         cdkTextareaAutosize
         cdkAutosizeMinRows="1"
@@ -65,7 +68,9 @@
     <div
       id="buttons"
       class="flex opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-      [ngClass]="{ 'opacity-100': menuTrigger.menuOpen }"
+      [ngClass]="{
+        'opacity-100': menuTrigger.menuOpen || backgroundMenuTrigger.menuOpen
+      }"
     >
       <button
         mat-icon-button
@@ -87,16 +92,66 @@
           >person_add_alt_1</mat-icon
         >
       </button>
+
+      <!--! Color Menu -->
       <button
         mat-icon-button
         class="material-icons"
         matTooltip="Background options"
         alt="Background options"
+        #backgroundMenuTrigger="matMenuTrigger"
+        [matMenuTriggerFor]="backgroundMenu"
       >
         <mat-icon fontSet="material-icons-outlined" class="scale-75"
           >palette</mat-icon
         >
       </button>
+      <mat-menu #backgroundMenu="matMenu">
+        <div class="flex items-center p-2 gap-1">
+          <ng-container
+            *ngFor="let color of bgColors | keyvalue: originalOrder; index as i"
+          >
+            <div class="h-7 w-7">
+              <button
+                class="h-full w-full font-black rounded-full border-solid border-2 border-transparent bg-no-repeat bg-center hover:border-black hover:border-opacity-80 hover:cursor-pointer first-of-type:border-gray-200"
+                [ngStyle]="{
+                  backgroundColor: color.value,
+                  backgroundImage:
+                    i === 0 ? 'url(/assets/images/svg/nocolor.svg)' : '',
+                  borderColor:
+                    this.note.background === color.key ? '#3f51b5' : ''
+                }"
+                [matTooltip]="color.key"
+                (click)="changeBackgroundColor(color.key)"
+              ></button>
+            </div>
+          </ng-container>
+        </div>
+
+        <div class="flex items-center p-2 gap-1">
+          <ng-container
+            *ngFor="let image of bgImages | keyvalue: originalOrder; index as i"
+          >
+            <div class="h-10 w-10">
+              <button
+                class="h-full w-full font-black rounded-full border-solid border-2 border-transparent bg-no-repeat bg-center hover:border-black hover:border-opacity-80 hover:cursor-pointer first-of-type:border-gray-200"
+                [ngStyle]="{
+                  backgroundColor: 'transparent',
+                  backgroundImage:
+                    i === 0
+                      ? 'url(/assets/images/backgrounds/no-image.png)'
+                      : 'url(' + image.value.replace('.svg', '_ph.svg') + ')',
+                  borderColor:
+                    this.note.background === image.key ? '#3f51b5' : ''
+                }"
+                [matTooltip]="image.key"
+                (click)="changeBackgroundColor(image.key)"
+              ></button>
+            </div>
+          </ng-container>
+        </div>
+      </mat-menu>
+
       <button
         mat-icon-button
         class="material-icons"
