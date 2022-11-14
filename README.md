@@ -32,5 +32,5 @@ Pinning Notes
 - [ ] Multiple select Notes
 - [ ] Implement View - Grid vs Block
 - [ ] Checkboxes Note
-- [ ] Implement Refresh
+- [X] Implement Refresh
 - [X] Sidenav
