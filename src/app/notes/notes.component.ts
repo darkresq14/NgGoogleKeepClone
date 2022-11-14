@@ -26,9 +26,7 @@ export class NotesComponent implements OnInit {
     // this.store
     //   .select(selectNotesNotes)
     //   .subscribe((data) => (this.notes = [...data]));
-
     this.store.dispatch(getNotes());
-
     // this.breakpoint = window.innerWidth <= 400 ? 1 : 6;
   }
 

@@ -20,12 +20,13 @@ cdkDropList
 To be added to app-note
 cdkDrag -->
 
+<!--! PINNED NOTES -->
 <div
   class="example-list w-full flex flex-col items-center justify-between box-border gap-4"
   *ngIf="(notes$ | notesFilter: true | async)!.length > 0"
 >
   <div
-    class="input-card text-left px-4 mat-body-strong opacity-80"
+    class="input-card text-left px-4 mat-body-strong opacity-8"
     *ngIf="(notes$ | notesFilter: false | async)!.length > 0"
   >
     Pinned
@@ -37,6 +38,7 @@ cdkDrag -->
   ></app-note>
 </div>
 
+<!--! OTHER NOTES -->
 <div
   class="example-list w-full flex flex-col items-center justify-between box-border gap-4"
   *ngIf="(notes$ | notesFilter: false | async)!.length > 0"

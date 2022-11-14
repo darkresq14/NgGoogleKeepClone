@@ -16,6 +16,7 @@ export class NotesService {
     this.userUid$ = this.store.select(selectAuthUid);
   }
 
+  // TODO: use valueChanges + { idField: 'id' }
   fetchPersonalNotesFirestore() {
     return this.userUid$.pipe(
       take(1),
