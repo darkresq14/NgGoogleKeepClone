@@ -28,5 +28,7 @@ Pinning Notes
   - [ ] Add option for background on new note and on edit note
 - [ ] Collaborators
 - [ ] Multiple select Notes
-- [ ] Grid View
+- [ ] Implement View - Grid vs Block
 - [ ] Checkboxes Note
+- [ ] Implement Refresh
+- [ ] Sidenav

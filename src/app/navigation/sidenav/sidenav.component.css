@@ -1,3 +1,3 @@
-.mat-list-text {
-  padding-left: 0 !important;
+::ng-deep .mat-list-text {
+  padding: 0 !important;
 }
