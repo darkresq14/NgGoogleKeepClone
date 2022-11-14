@@ -13,26 +13,26 @@ import { State } from '../../store/app.reducer';
 
 @Component({
   selector: 'app-sidenav',
-  // animations: [
-  //   trigger('openClose', [
-  //     // ...
-  //     state(
-  //       'open',
-  //       style({
-  //         opacity: 1,
-  //         width: '100%',
-  //       })
-  //     ),
-  //     state(
-  //       'closed',
-  //       style({
-  //         opacity: 0,
-  //         width: 0,
-  //       })
-  //     ),
-  //     transition('open <=> closed', [animate('0.5s')]),
-  //   ]),
-  // ],
+  animations: [
+    trigger('openClose', [
+      // ...
+      state(
+        'open',
+        style({
+          opacity: 1,
+          width: '100%',
+        })
+      ),
+      state(
+        'closed',
+        style({
+          opacity: 0,
+          width: 0,
+        })
+      ),
+      transition('open <=> closed', [animate('0.5s')]),
+    ]),
+  ],
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.css'],
 })
