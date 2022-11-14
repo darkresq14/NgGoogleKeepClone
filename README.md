@@ -26,7 +26,9 @@ Pinning Notes
   - [ ] Add option for pinning on new note
 - [X] Modify Background
   - [ ] Add option for background on new note and on edit note
+- [ ] Checkboxes Note
 - [ ] Collaborators
+- [ ] Order Notes
 - [ ] Multiple select Notes
 - [ ] Implement View - Grid vs Block
 - [ ] Checkboxes Note
