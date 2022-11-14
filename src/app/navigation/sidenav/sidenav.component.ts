@@ -15,7 +15,6 @@ import { State } from '../../store/app.reducer';
   selector: 'app-sidenav',
   animations: [
     trigger('openClose', [
-      // ...
       state(
         'open',
         style({
@@ -30,7 +29,7 @@ import { State } from '../../store/app.reducer';
           width: 0,
         })
       ),
-      transition('open <=> closed', [animate('0.5s')]),
+      transition('open <=> closed', [animate('0.3s')]),
     ]),
   ],
   templateUrl: './sidenav.component.html',

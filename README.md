@@ -33,4 +33,4 @@ Pinning Notes
 - [ ] Implement View - Grid vs Block
 - [ ] Checkboxes Note
 - [ ] Implement Refresh
-- [ ] Sidenav
+- [X] Sidenav

@@ -1,7 +1,10 @@
 <header>
   <app-header (sidenavToggle)="onSidenavToggle()"></app-header>
 </header>
-<mat-sidenav-container autosize class="my-container">
+<mat-sidenav-container
+  autosize
+  [ngClass]="{ 'container-closed': !(isExpanded$ | async) }"
+>
   <mat-sidenav
     class="sidenav"
     #sidenav
@@ -15,12 +18,7 @@
       <app-sidenav></app-sidenav>
     </aside>
   </mat-sidenav>
-  <!--TODO: Play with the 10% and add transition -->
-  <!-- https://stackoverflow.com/questions/46835554/angular-material-side-bar-with-half-side-mode -->
-  <mat-sidenav-content
-    [style.left]="(isExpanded$ | async) ? '10%' : '0'"
-    class="transition-all"
-  >
+  <mat-sidenav-content>
     <main>
       <router-outlet></router-outlet>
     </main>

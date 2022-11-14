@@ -14,7 +14,7 @@ export interface UiState {
 }
 
 const INITIAL_STATE = {
-  isSidenavExpanded: true,
+  isSidenavExpanded: false,
   isInputEditMode: false,
   isLoading: false,
 };
