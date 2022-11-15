@@ -101,9 +101,21 @@ export class AuthEffects {
 
   authLogout$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(AuthActions.AuthActionTypes.Logout),
-      map(() => {
-        return UiActions.stopLoading();
+      ofType(AuthActions.AuthActionTypes.LogoutStart),
+      switchMap(() => {
+        this.store.dispatch(UiActions.startLoading());
+        return from(this.afAuth.signOut()).pipe(
+          take(1),
+          map(() => {
+            this.store.dispatch(UiActions.stopLoading());
+            return AuthActions.LogoutSuccess();
+          }),
+          catchError((error: Error) => {
+            this.store.dispatch(UiActions.stopLoading());
+            this.uiService.showSnackbar(error.message, '', 3000);
+            return of(AuthActions.LogoutFailure({ error }));
+          })
+        );
       })
     );
   });

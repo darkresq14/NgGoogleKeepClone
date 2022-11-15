@@ -1,8 +1,8 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { LogoutStart } from 'src/app/auth/auth.actions';
 import { selectAuthIsAuthenticated } from 'src/app/auth/auth.selector';
-import { AuthService } from 'src/app/auth/auth.service';
 import { selectUiIsLoading } from 'src/app/shared/ui/ui.selector';
 import { State } from 'src/app/store/app.reducer';
 import * as UiActions from '../../shared/ui/ui.actions';
@@ -17,7 +17,7 @@ export class HeaderComponent implements OnInit {
   isAuthenticated$: Observable<boolean>;
   isLoading$: Observable<boolean>;
 
-  constructor(private auth: AuthService, private store: Store<State>) {
+  constructor(private store: Store<State>) {
     this.isAuthenticated$ = this.store.select(selectAuthIsAuthenticated);
     this.isLoading$ = this.store.select(selectUiIsLoading);
   }
@@ -29,7 +29,7 @@ export class HeaderComponent implements OnInit {
   }
 
   logoutClicked() {
-    this.auth.signOut();
+    this.store.dispatch(LogoutStart());
   }
 
   refreshClicked() {

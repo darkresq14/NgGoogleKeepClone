@@ -7,7 +7,9 @@ export enum AuthActionTypes {
   GoogleLoginStart = '[Auth] GoogleLoginStart',
   AuthSuccess = '[Auth] AuthSuccess',
   AuthFailure = '[Auth] AuthFailure',
-  Logout = '[Auth] Logout',
+  LogoutStart = '[Auth] LogoutStart',
+  LogoutSuccess = '[Auth] LogoutSuccess',
+  LogoutFailure = '[Auth] LogoutFailure',
 }
 
 export const LoginStart = createAction(
@@ -32,4 +34,11 @@ export const AuthFailure = createAction(
   props<{ error: Error }>()
 );
 
-export const Logout = createAction(AuthActionTypes.Logout);
+export const LogoutStart = createAction(AuthActionTypes.LogoutStart);
+
+export const LogoutSuccess = createAction(AuthActionTypes.LogoutSuccess);
+
+export const LogoutFailure = createAction(
+  AuthActionTypes.LogoutFailure,
+  props<{ error: Error }>()
+);
