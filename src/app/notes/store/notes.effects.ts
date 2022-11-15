@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, exhaustMap, catchError, of } from 'rxjs';
+import { map, catchError, of, switchMap } from 'rxjs';
 import { UiService } from 'src/app/shared/ui/ui.service';
 import { NotesService } from '../notes.service';
 import * as NotesActions from './notes.actions';
@@ -23,7 +23,7 @@ export class NotesEffects {
   getNotes$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(NotesActions.getNotes),
-      exhaustMap(() => {
+      switchMap(() => {
         this.store.dispatch(UiActions.startLoading());
         return this.notesService.fetchPersonalNotesFirestore().pipe(
           map((notes) => {
@@ -40,30 +40,10 @@ export class NotesEffects {
     );
   });
 
-  // createNote$ = createEffect(() => {
-  //   return this.actions$.pipe(
-  //     ofType(NotesActions.createNote),
-  //     exhaustMap((note) => {
-  //       return this.notesService.createNoteFirestore(note).pipe(
-  //         map((res) => {
-  //           console.log(res);
-  //           this.store.dispatch(UiActions.stopLoading());
-  //           return NotesActions.createNoteSuccess();
-  //         }),
-  //         catchError((error) => {
-  //           this.store.dispatch(UiActions.stopLoading());
-  //           this.uiService.showSnackbar(error.message, '', 3000);
-  //           return of(NotesActions.createNoteFailure({ error }));
-  //         })
-  //       );
-  //     })
-  //   );
-  // });
-
   createOrEditNote$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(NotesActions.createOrEditNote),
-      exhaustMap((props: Note) => {
+      switchMap((props: Note) => {
         this.store.dispatch(UiActions.startLoading());
         return this.notesService.createOrEditNoteFirestore(props).pipe(
           map(() => {
@@ -88,7 +68,7 @@ export class NotesEffects {
   deleteNote$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(NotesActions.deleteNote),
-      exhaustMap((props) => {
+      switchMap((props) => {
         this.store.dispatch(UiActions.startLoading());
         return this.notesService.deleteNoteFirestore(props.id).pipe(
           map(() => {

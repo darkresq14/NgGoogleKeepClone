@@ -18,7 +18,7 @@ export class NotesComponent implements OnInit, OnDestroy {
   breakpoint = 2;
 
   constructor(private store: Store<State>) {
-    // TODO: Not getting triggered on user change unless refresh
+    console.log('NotesComponent constructor');
     this.notes$ = this.store.select(selectNotesNotes);
   }
 

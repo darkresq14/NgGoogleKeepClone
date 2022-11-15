@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import firebase from 'firebase/compat/app';
 import { UiService } from '../shared/ui/ui.service';
 import { State } from '../store/app.reducer';
 import { AuthSuccess, Logout } from './auth.actions';
@@ -28,6 +27,7 @@ export class AuthService {
     });
   }
 
+  //TODO Move to effect
   signOut() {
     this.afAuth
       .signOut()

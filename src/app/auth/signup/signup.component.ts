@@ -1,13 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  NgForm,
-  ValidationErrors,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -17,7 +9,6 @@ import { selectUiIsLoading } from 'src/app/shared/ui/ui.selector';
 import Validation from 'src/app/shared/validation';
 import { State } from 'src/app/store/app.reducer';
 import { GoogleLoginStart, SignupStart } from '../auth.actions';
-import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-signup',
@@ -33,9 +24,7 @@ export class SignupComponent implements OnInit {
   constructor(
     iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
-    private authService: AuthService,
     private store: Store<State>,
-    private auth: AuthService,
     private router: Router
   ) {
     this.isLoading$ = this.store.select(selectUiIsLoading);

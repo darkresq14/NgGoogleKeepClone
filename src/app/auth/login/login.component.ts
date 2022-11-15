@@ -7,7 +7,6 @@ import { Observable } from 'rxjs';
 import { selectUiIsLoading } from 'src/app/shared/ui/ui.selector';
 import { State } from 'src/app/store/app.reducer';
 import { GoogleLoginStart, LoginStart } from '../auth.actions';
-import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +24,6 @@ export class LoginComponent implements OnInit {
     iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
     private store: Store<State>,
-    private auth: AuthService,
     private router: Router
   ) {
     this.isLoading$ = this.store.select(selectUiIsLoading);
