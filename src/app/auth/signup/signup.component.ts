@@ -16,6 +16,7 @@ import { Observable } from 'rxjs';
 import { selectUiIsLoading } from 'src/app/shared/ui/ui.selector';
 import Validation from 'src/app/shared/validation';
 import { State } from 'src/app/store/app.reducer';
+import { GoogleLoginStart, SignupStart } from '../auth.actions';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -63,14 +64,16 @@ export class SignupComponent implements OnInit {
   ngOnInit(): void {}
 
   onSubmit() {
-    this.authService.registerUser({
-      email: this.signupForm.value.email,
-      password: this.signupForm.value.confirmPassword,
-    });
+    this.store.dispatch(
+      SignupStart({
+        email: this.signupForm.value.email,
+        password: this.signupForm.value.confirmPassword,
+      })
+    );
   }
 
   loginWithGoogle() {
-    this.auth.signInWithGoogle();
+    this.store.dispatch(GoogleLoginStart());
   }
 
   goToSignIn() {

@@ -4,6 +4,7 @@ import { AuthData } from './auth.model';
 export enum AuthActionTypes {
   LoginStart = '[Auth] LoginStart',
   SignupStart = '[Auth] SignupStart',
+  GoogleLoginStart = '[Auth] GoogleLoginStart',
   AuthSuccess = '[Auth] AuthSuccess',
   AuthFailure = '[Auth] AuthFailure',
   Logout = '[Auth] Logout',
@@ -18,6 +19,8 @@ export const SignupStart = createAction(
   AuthActionTypes.SignupStart,
   props<AuthData>()
 );
+
+export const GoogleLoginStart = createAction(AuthActionTypes.GoogleLoginStart);
 
 export const AuthSuccess = createAction(
   AuthActionTypes.AuthSuccess,
