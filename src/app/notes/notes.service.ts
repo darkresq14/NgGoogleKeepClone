@@ -73,21 +73,5 @@ export class NotesService {
     );
   }
 
-  // createNoteFirestore(note: Note) {
-  //   return this.userUid$.pipe(
-  //     take(1),
-  //     switchMap((uid) => {
-  //       const noteToAdd = {
-  //         title: note.title,
-  //         content: note.content,
-  //         type: 'normal',
-  //         date: new Date(),
-  //       };
-
-  //       return this.db.collection(uid!).add(noteToAdd);
-  //     })
-  //   );
-  // }
-
   // TODO: Check why Redux fires twice on every modification
 }

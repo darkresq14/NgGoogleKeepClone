@@ -16,6 +16,7 @@
       >
     </mat-card-content>
   </div>
+  <!--! PINNED  -->
   <div
     id="pin-container"
     class="absolute right-0 top-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
@@ -28,12 +29,8 @@
       (click)="onPinClicked()"
     >
       <mat-icon
-        *ngIf="!note.pinned"
-        fontSet="material-icons-outlined"
+        [fontSet]="note.pinned ? 'material-icons' : 'material-icons-outlined'"
         class="scale-75"
-        >push_pin</mat-icon
-      >
-      <mat-icon *ngIf="note.pinned" fontSet="material-icons" class="scale-75"
         >push_pin</mat-icon
       >
     </button>
@@ -174,6 +171,7 @@
           >archive</mat-icon
         >
       </button>
+      <!--! MORE BUTTON  -->
       <button
         mat-icon-button
         class="material-icons"

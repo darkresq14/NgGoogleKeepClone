@@ -15,6 +15,7 @@ import { DialogData } from 'src/app/notes/note-edit-dialog/note-edit-dialog.comp
 import { selectUiIsInputEditMode } from 'src/app/shared/ui/ui.selector';
 import { Note } from 'src/app/notes/note/note.model';
 import { createOrEditNote } from 'src/app/notes/store/notes.actions';
+import { MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
   selector: 'app-edit',
@@ -24,6 +25,8 @@ import { createOrEditNote } from 'src/app/notes/store/notes.actions';
 export class EditComponent implements OnInit {
   inputTextarea: string = '';
   inputTitle: string = '';
+  inputPin: boolean = false;
+  menuOpen: boolean = false;
   note?: Note;
 
   isEditMode$: Observable<boolean>;
@@ -31,14 +34,22 @@ export class EditComponent implements OnInit {
 
   @Input() data?: DialogData;
   @ViewChild('form') form?: NgForm;
+  @ViewChild('menuTrigger') menuTrigger?: MatMenuTrigger;
 
   @HostListener('document:click', ['$event'])
   clickedOut(event: MouseEvent) {
+    if (this.menuOpen) {
+      this.menuOpen = this.menuTrigger?.menuOpen ?? false;
+      return;
+    }
     if (this.eRef?.nativeElement) {
       if (
         !this.eRef?.nativeElement.contains(event.target) &&
         this.isEditMode === true
       ) {
+        console.log('Native element: ', this.eRef.nativeElement);
+        console.log('Event target: ', event.target);
+        console.log('Clicked Out !');
         this.disableEditMode();
       }
 
@@ -62,6 +73,9 @@ export class EditComponent implements OnInit {
       if (this.data.note.content) {
         this.inputTextarea = this.data.note.content;
       }
+      if (this.data.note.pinned) {
+        this.inputPin = this.data.note.pinned;
+      }
     }
   }
 
@@ -74,6 +88,7 @@ export class EditComponent implements OnInit {
             ...this.note,
             title: this.inputTitle,
             content: this.inputTextarea,
+            pinned: this.inputPin,
           })
         );
       } else {
@@ -81,6 +96,7 @@ export class EditComponent implements OnInit {
           createOrEditNote({
             title: this.inputTitle,
             content: this.inputTextarea,
+            pinned: this.inputPin,
           })
         );
       }
@@ -91,5 +107,21 @@ export class EditComponent implements OnInit {
     }
   }
 
-  // TODO: Add Pin functionality to Edit
+  onMenuTriggerClicked() {
+    this.menuOpen = true;
+  }
+
+  onDeleteNote() {
+    // this.store.dispatch(deleteNote({ id: this.note.id! }));
+    // TODO Implement Delete for Edit Dialog / Disable button for New Note
+  }
+
+  onShowLabels() {
+    // this.showLabels = true;
+    // TODO Implement Labels on both Edit Dialog and New Note
+  }
+
+  onPinClicked() {
+    this.inputPin = this.inputPin ? false : true;
+  }
 }

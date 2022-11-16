@@ -23,6 +23,23 @@
       ></textarea>
     </mat-card-content>
   </form>
+  <!--! PINNED  -->
+  <div id="pin-container" class="absolute right-0 top-0">
+    <button
+      type="button"
+      mat-icon-button
+      class="material-icons m-auto"
+      [matTooltip]="inputPin ? 'Unpin note' : 'Pin note'"
+      alt="Pin / Unpin note"
+      (click)="onPinClicked()"
+    >
+      <mat-icon
+        [fontSet]="inputPin ? 'material-icons' : 'material-icons-outlined'"
+        class="scale-75"
+        >push_pin</mat-icon
+      >
+    </button>
+  </div>
   <mat-card-actions class="flex">
     <button
       mat-icon-button
@@ -74,19 +91,22 @@
         >archive</mat-icon
       >
     </button>
+    <!--! MORE BUTTON  -->
     <button
       mat-icon-button
       class="material-icons"
       matTooltip="More"
       alt="More"
       [matMenuTriggerFor]="menu"
+      #menuTrigger="matMenuTrigger"
+      (click)="onMenuTriggerClicked()"
     >
       <mat-icon fontSet="material-icons-outlined" class="scale-75"
         >more_vert</mat-icon
       >
       <mat-menu #menu="matMenu">
-        <button mat-menu-item>Delete note</button>
-        <button mat-menu-item>Add label</button>
+        <button mat-menu-item (click)="onDeleteNote()">Delete note</button>
+        <button mat-menu-item (click)="onShowLabels()">Add label</button>
         <button mat-menu-item>Add drawing</button>
         <button mat-menu-item>Make a copy</button>
       </mat-menu>

@@ -23,7 +23,7 @@ Pinning Notes
 
 - [x] Labels
 - [X] Pinned Notes
-  - [ ] Add option for pinning on new note
+  - [X] Add option for pinning on new note
 - [X] Modify Background
   - [ ] Add option for background on new note and on edit note
 - [ ] Checkboxes Note
