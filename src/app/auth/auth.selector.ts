@@ -12,3 +12,8 @@ export const selectAuthUid = createSelector(
   selectAuth,
   (state: AuthState) => state.uid
 );
+
+export const selectAuthUsers = createSelector(
+  selectAuth,
+  (state: AuthState) => state.users
+);

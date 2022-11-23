@@ -4,6 +4,7 @@ export interface Note {
   content?: string;
   type?: 'normal' | 'list' | 'drawing' | 'image';
   labels?: string[];
+  collaborators?: string[];
   selected?: boolean;
   pinned?: boolean;
   archived?: boolean;

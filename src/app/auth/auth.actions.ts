@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { AuthData } from './auth.model';
+import { AuthData, User } from './auth.model';
 
 export enum AuthActionTypes {
   LoginStart = '[Auth] LoginStart',
@@ -10,6 +10,9 @@ export enum AuthActionTypes {
   LogoutStart = '[Auth] LogoutStart',
   LogoutSuccess = '[Auth] LogoutSuccess',
   LogoutFailure = '[Auth] LogoutFailure',
+  CreateUserStart = '[Auth] CreateUserStart',
+  CreateUserSuccess = '[Auth] CreateUserSuccess',
+  CreateUserFailure = '[Auth] CreateUserFailure',
 }
 
 export const LoginStart = createAction(
@@ -40,5 +43,19 @@ export const LogoutSuccess = createAction(AuthActionTypes.LogoutSuccess);
 
 export const LogoutFailure = createAction(
   AuthActionTypes.LogoutFailure,
+  props<{ error: Error }>()
+);
+
+export const CreateUserStart = createAction(
+  AuthActionTypes.CreateUserStart,
+  props<User>()
+);
+
+export const CreateUserSuccess = createAction(
+  AuthActionTypes.CreateUserSuccess
+);
+
+export const CreateUserFailure = createAction(
+  AuthActionTypes.CreateUserFailure,
   props<{ error: Error }>()
 );
