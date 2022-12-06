@@ -36,6 +36,7 @@ export class EditComponent implements OnInit {
   isEditMode: boolean = false;
 
   @Input() data?: DialogData;
+  @Input() noteType: any;
   @ViewChild('form') form?: NgForm;
   @ViewChild('menuTrigger') menuTrigger?: MatMenuTrigger;
 
@@ -64,6 +65,7 @@ export class EditComponent implements OnInit {
 
   constructor(private store: Store<State>, private eRef: ElementRef) {
     this.isEditMode$ = store.select(selectUiIsInputEditMode);
+    //this.noteType = this.note?.type ? this.note.type : 'normal';
   }
 
   ngOnInit(): void {
@@ -123,7 +125,7 @@ export class EditComponent implements OnInit {
 
   disableEditMode() {
     this.store.dispatch(setInputEditMode({ isInputEditMode: false }));
-    if (this.inputTitle || this.inputTextarea) {
+    if (this.inputTitle || this.inputTextarea || this.todoList.length) {
       if (this.note) {
         this.store.dispatch(
           createOrEditNote({
