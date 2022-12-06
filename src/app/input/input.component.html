@@ -20,6 +20,7 @@
             class="material-icons"
             matTooltip="New list"
             alt="New list"
+            (click)="newListNote()"
           >
             <mat-icon fontSet="material-icons-outlined"
               >check_box</mat-icon
@@ -45,5 +46,5 @@
   </mat-card>
 
   <!-- Edit Mode = true -->
-  <app-edit *ngIf="isEditMode$ | async"></app-edit>
+  <app-edit *ngIf="isEditMode$ | async" [noteType]="newNoteType"></app-edit>
 </div>
