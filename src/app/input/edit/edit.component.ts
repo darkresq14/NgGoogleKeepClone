@@ -26,6 +26,8 @@ export class EditComponent implements OnInit {
   inputTextarea: string = '';
   inputTitle: string = '';
   inputPin: boolean = false;
+  todoList: string[] = [];
+  newTodoItem: string = '';
   menuOpen: boolean = false;
   note?: Note;
 
@@ -33,6 +35,7 @@ export class EditComponent implements OnInit {
   isEditMode: boolean = false;
 
   @Input() data?: DialogData;
+  @Input() noteType: any;
   @ViewChild('form') form?: NgForm;
   @ViewChild('menuTrigger') menuTrigger?: MatMenuTrigger;
 
@@ -61,6 +64,7 @@ export class EditComponent implements OnInit {
 
   constructor(private store: Store<State>, private eRef: ElementRef) {
     this.isEditMode$ = store.select(selectUiIsInputEditMode);
+    //this.noteType = this.note?.type ? this.note.type : 'normal';
   }
 
   ngOnInit(): void {
@@ -70,8 +74,25 @@ export class EditComponent implements OnInit {
       if (this.data.note.title) {
         this.inputTitle = this.data.note.title;
       }
+      if (this.data.note.type) {
+        console.log("Code picked existing type");
+        this.noteType = this.data.note.type;
+      }
       if (this.data.note.content) {
-        this.inputTextarea = this.data.note.content;
+        console.log("Picking note type");
+        switch (this.noteType) {
+          case "list": {
+            console.log("Type is list");
+            this.todoList = this.getListItems();
+            break;
+          }
+          case "normal": {
+            console.log("Type is text");
+            this.inputTextarea = this.data.note.content;
+            break;
+          }
+          default: { }
+        }
       }
       if (this.data.note.pinned) {
         this.inputPin = this.data.note.pinned;
@@ -79,24 +100,61 @@ export class EditComponent implements OnInit {
     }
   }
 
+  ngOnChanges(): void {
+    //console.log("Picking note type");
+    switch (this.noteType) {
+      case "list": {
+        //console.log("Type is list");
+        this.todoList = this.getListItems();
+        break;
+      }
+      case "normal": {
+        //console.log("Type is text");
+        this.inputTextarea = this.data?.note.content || "";
+        break;
+      }
+      default: { }
+    }
+  }
+
+  getListItems(): string[] {
+    let itemList = this.data?.note.content?.split('\n');
+    return itemList ? itemList : [];
+  }
+
+  getNoteContent(): string {
+    if (this.inputTextarea) {
+      //console.log("GetNoteContent: ", this.inputTextarea);
+      return this.inputTextarea;
+    }
+    else if (this.todoList.length) {
+      //let newString = this.todoList.reduce((acc, val) => (`${acc}${val}\n`), "");
+      //console.log("GetNoteContent: ", newString);
+      return this.todoList.reduce((acc, val) => (`${acc}${val}\n`), ""); //concatenates with \n separator
+    }
+    else return "";
+  }
+
   disableEditMode() {
     this.store.dispatch(setInputEditMode({ isInputEditMode: false }));
-    if (this.inputTitle || this.inputTextarea) {
+    if (this.inputTitle || this.inputTextarea || this.todoList.length) {
       if (this.note) {
         this.store.dispatch(
           createOrEditNote({
             ...this.note,
             title: this.inputTitle,
-            content: this.inputTextarea,
+            content: this.getNoteContent(),
             pinned: this.inputPin,
+            type: this.noteType,
           })
         );
       } else {
         this.store.dispatch(
           createOrEditNote({
             title: this.inputTitle,
-            content: this.inputTextarea,
+            content: this.getNoteContent(),
             pinned: this.inputPin,
+            type: this.noteType,
           })
         );
       }
@@ -119,6 +177,11 @@ export class EditComponent implements OnInit {
   onShowLabels() {
     // this.showLabels = true;
     // TODO Implement Labels on both Edit Dialog and New Note
+  }
+
+  saveListItem($item: any) {
+    this.todoList.push($item.target.value);
+    this.newTodoItem = "";
   }
 
   onPinClicked() {

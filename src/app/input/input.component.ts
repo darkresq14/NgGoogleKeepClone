@@ -12,6 +12,7 @@ import { selectUiIsInputEditMode } from '../shared/ui/ui.selector';
 })
 export class InputComponent implements OnInit {
   isEditMode$: Observable<boolean>;
+  newNoteType: string = "normal";
 
   constructor(private store: Store<State>) {
     this.isEditMode$ = store.select(selectUiIsInputEditMode);
@@ -20,6 +21,12 @@ export class InputComponent implements OnInit {
   ngOnInit(): void {}
 
   newTextNote() {
+    this.newNoteType = "normal";
+    this.store.dispatch(toggleInputEditMode());
+  }
+
+  newListNote() {
+    this.newNoteType = "list";
     this.store.dispatch(toggleInputEditMode());
   }
 }

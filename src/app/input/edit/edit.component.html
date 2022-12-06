@@ -11,7 +11,7 @@
       />
     </mat-card-title>
     <mat-card-content>
-      <textarea
+      <textarea *ngIf="noteType === 'normal'"
         matInput
         placeholder="Take a note..."
         class="inputTextArea w-full"
@@ -21,6 +21,46 @@
         [(ngModel)]="inputTextarea"
         name="inputTextarea"
       ></textarea>
+
+      <!-- <textarea *ngIf="noteType === 'list'"
+        matInput
+        placeholder="Add list item..."
+        class="inputTextArea w-full"
+        cdkTextareaAutosize
+        cdkAutosizeMinRows="1"
+        cdkAutosizeMaxRows="20"
+        [(ngModel)]="inputTextarea"
+        name="inputTextarea"
+      ></textarea> -->
+
+      <mat-list *ngIf="noteType === 'list'">
+        <mat-list-item *ngFor="let listItem of todoList; let i = index">
+          <mat-icon matListItemIcon>check_box_outline_blank</mat-icon>
+          <span>&nbsp;</span>
+          <textarea
+            matInput
+            class="w-full"
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="1"
+            cdkAutosizeMaxRows="5"
+            isReadonly
+            [ngModel]="listItem"
+            name="checkBoxListItem-{{i}}"
+          ></textarea>
+        </mat-list-item>
+        <mat-list-item>
+          <mat-icon matListItemIcon>check_box_outline_blank</mat-icon>
+          <span>&nbsp;</span>
+          <input
+            matInput
+            placeholder="Add list item..."
+            class="inputTextArea w-full"
+            [(ngModel)]="newTodoItem"
+            name="inputTextarea"
+            (keydown.enter)="(saveListItem($event))"
+          />
+        </mat-list-item>
+      </mat-list>      
     </mat-card-content>
   </form>
   <!--! PINNED  -->
