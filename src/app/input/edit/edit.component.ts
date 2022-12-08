@@ -16,6 +16,7 @@ import { selectUiIsInputEditMode } from 'src/app/shared/ui/ui.selector';
 import { Note } from 'src/app/notes/note/note.model';
 import { createOrEditNote } from 'src/app/notes/store/notes.actions';
 import { MatMenuTrigger } from '@angular/material/menu';
+import { ChecklistItem } from 'src/app/notes/note/checklist-item.model';
 
 @Component({
   selector: 'app-edit',
@@ -26,7 +27,7 @@ export class EditComponent implements OnInit {
   inputTextarea: string = '';
   inputTitle: string = '';
   inputPin: boolean = false;
-  todoList: string[] = [];
+  todoList: ChecklistItem[] = [];
   newTodoItem: string = '';
   menuOpen: boolean = false;
   note?: Note;
@@ -109,9 +110,9 @@ export class EditComponent implements OnInit {
     }
   }
 
-  getListItems(): string[] {
+  getListItems(): ChecklistItem[] {
     let itemList = this.data?.note.content?.split('\n');
-    return itemList ? itemList : [];
+    return itemList ? itemList.map(item => (ChecklistItem.convert(item))) : [];
   }
 
   getNoteContent(): string {
@@ -119,8 +120,8 @@ export class EditComponent implements OnInit {
       return this.inputTextarea;
     }
     else if (this.todoList.length > 1) {
-      let initVal = this.todoList.at(0) || "";
-      return this.todoList.splice(1).reduce((acc, val) => (`${acc}\n${val}`), initVal); //concatenates with \n separator
+      let initVal = this.todoList.at(0)?.content || "";
+      return this.todoList.splice(1).reduce((acc, item) => (`${acc}\n${item.toString()}`), initVal); //concatenates with \n separator
     }
     else return "";
   }
@@ -170,8 +171,12 @@ export class EditComponent implements OnInit {
   }
 
   saveListItem($item: any) {
-    this.todoList.push($item.target.value);
+    this.todoList.push(ChecklistItem.convert($item.target.value));
     this.newTodoItem = "";
+  }
+
+  checkItem(item: ChecklistItem) {
+    item.toggleCheck();
   }
 
   onPinClicked() {

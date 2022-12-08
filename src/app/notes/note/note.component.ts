@@ -8,6 +8,7 @@ import { createOrEditNote, deleteNote } from '../store/notes.actions';
 import { bgColors, bgImages, Note } from './note.model';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { KeyValue } from '@angular/common';
+import { ChecklistItem } from './checklist-item.model';
 
 @Component({
   selector: 'app-note',
@@ -130,6 +131,6 @@ export class NoteComponent implements OnInit {
   }
 
   getListItems(): string[] {
-    return this.note?.content?.split('\n') || [];
+    return this.note?.content?.split('\n') || [];//.map(c => (ChecklistItem.convert(c))) || [];
   }
 }
