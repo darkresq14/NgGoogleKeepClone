@@ -29,9 +29,7 @@ export class NoteComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  openEditDialog(note: Note) {
-    console.log(note);
-    
+  openEditDialog(note: Note) {    
     this.dialog.open(NoteEditDialogComponent, {
       data: { note: note },
       panelClass: 'custom-dialog-container',
