@@ -70,6 +70,9 @@ export class EditComponent implements OnInit {
       if (this.data.note.title) {
         this.inputTitle = this.data.note.title;
       }
+      if (this.data.note.category) {
+        this.noteType = this.data.note.category;
+      }
       if (this.data.note.content) {
         this.inputTextarea = this.data.note.content;
       }
@@ -77,6 +80,40 @@ export class EditComponent implements OnInit {
         this.inputPin = this.data.note.pinned;
       }
     }
+  }
+
+  ngOnChanges(): void {
+    //console.log("Picking note type");
+    switch (this.noteType) {
+      case "list": {
+        //console.log("Type is list");
+        this.todoList = this.getListItems();
+        break;
+      }
+      case "normal": {
+        //console.log("Type is text");
+        this.inputTextarea = this.data?.note.content || "";
+        break;
+      }
+      default: { }
+    }
+  }
+
+  getListItems(): string[] {
+    let itemList = this.data?.note.content?.split('\n');
+    return itemList ? itemList : [];
+  }
+
+  getNoteContent(): string {
+    if (this.inputTextarea) {
+      //console.log("GetNoteContent: ", this.inputTextarea);
+      return this.inputTextarea;
+    }
+    else if (this.todoList.length > 1) {
+      let initVal = this.todoList.at(0) || "";
+      return this.todoList.splice(1).reduce((acc, val) => (`${acc}\n${val}`), initVal); //concatenates with \n separator
+    }
+    else return "";
   }
 
   disableEditMode() {
