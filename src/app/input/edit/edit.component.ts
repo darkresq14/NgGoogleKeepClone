@@ -64,7 +64,6 @@ export class EditComponent implements OnInit {
 
   constructor(private store: Store<State>, private eRef: ElementRef) {
     this.isEditMode$ = store.select(selectUiIsInputEditMode);
-    //this.noteType = this.note?.type ? this.note.type : 'normal';
   }
 
   ngOnInit(): void {
@@ -78,15 +77,12 @@ export class EditComponent implements OnInit {
         this.noteType = this.data.note.category;
       }
       if (this.data.note.content) {
-        console.log("Picking note type");
         switch (this.noteType) {
           case "list": {
-            console.log("Type is list");
             this.todoList = this.getListItems();
             break;
           }
           case "normal": {
-            console.log("Type is text");
             this.inputTextarea = this.data.note.content;
             break;
           }
@@ -100,15 +96,12 @@ export class EditComponent implements OnInit {
   }
 
   ngOnChanges(): void {
-    //console.log("Picking note type");
     switch (this.noteType) {
       case "list": {
-        //console.log("Type is list");
         this.todoList = this.getListItems();
         break;
       }
       case "normal": {
-        //console.log("Type is text");
         this.inputTextarea = this.data?.note.content || "";
         break;
       }
@@ -123,7 +116,6 @@ export class EditComponent implements OnInit {
 
   getNoteContent(): string {
     if (this.inputTextarea) {
-      //console.log("GetNoteContent: ", this.inputTextarea);
       return this.inputTextarea;
     }
     else if (this.todoList.length > 1) {
