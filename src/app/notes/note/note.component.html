@@ -6,7 +6,7 @@
   <div (click)="openEditDialog(note)">
     <mat-card-title>{{ note.title }}</mat-card-title>
     <mat-card-content>
-      <textarea
+      <textarea *ngIf="note.category === 'normal' || !note.category"
         class="w-full bg-inherit"
         readonly
         cdkTextareaAutosize
@@ -14,7 +14,24 @@
         cdkAutosizeMaxRows="20"
         >{{ note.content }}</textarea
       >
+      <mat-list *ngIf="note.category === 'list'">
+        <mat-list-item *ngFor="let listItem of getListItems(); let i = index">
+          <mat-icon matListItemIcon>check_box_outline_blank</mat-icon>
+          <span>&nbsp;</span>
+          <textarea
+            matInput
+            class="w-full"
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="1"
+            cdkAutosizeMaxRows="5"
+            isReadonly
+            [ngModel]="listItem"
+            name="checkBoxListItem-{{i}}"
+          ></textarea>
+        </mat-list-item>
+      </mat-list>
     </mat-card-content>
+    
   </div>
   <!--! PINNED  -->
   <div

@@ -2,7 +2,7 @@ export interface Note {
   id?: string;
   title?: string;
   content?: string;
-  type?: 'normal' | 'list' | 'drawing' | 'image';
+  category?: 'normal' | 'list' | 'drawing' | 'image';
   labels?: string[];
   collaborators?: string[];
   selected?: boolean;
