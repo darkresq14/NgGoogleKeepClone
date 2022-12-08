@@ -74,9 +74,8 @@ export class EditComponent implements OnInit {
       if (this.data.note.title) {
         this.inputTitle = this.data.note.title;
       }
-      if (this.data.note.type) {
-        console.log("Code picked existing type");
-        this.noteType = this.data.note.type;
+      if (this.data.note.category) {
+        this.noteType = this.data.note.category;
       }
       if (this.data.note.content) {
         console.log("Picking note type");
@@ -127,10 +126,9 @@ export class EditComponent implements OnInit {
       //console.log("GetNoteContent: ", this.inputTextarea);
       return this.inputTextarea;
     }
-    else if (this.todoList.length) {
-      //let newString = this.todoList.reduce((acc, val) => (`${acc}${val}\n`), "");
-      //console.log("GetNoteContent: ", newString);
-      return this.todoList.reduce((acc, val) => (`${acc}${val}\n`), ""); //concatenates with \n separator
+    else if (this.todoList.length > 1) {
+      let initVal = this.todoList.at(0) || "";
+      return this.todoList.splice(1).reduce((acc, val) => (`${acc}\n${val}`), initVal); //concatenates with \n separator
     }
     else return "";
   }
