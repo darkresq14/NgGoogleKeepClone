@@ -86,6 +86,7 @@ export class EditComponent implements OnInit {
         this.store.dispatch(
           createOrEditNote({
             ...this.note,
+            category: this.noteType,
             title: this.inputTitle,
             content: this.inputTextarea,
             pinned: this.inputPin,
@@ -94,6 +95,7 @@ export class EditComponent implements OnInit {
       } else {
         this.store.dispatch(
           createOrEditNote({
+            category: this.noteType,
             title: this.inputTitle,
             content: this.inputTextarea,
             pinned: this.inputPin,

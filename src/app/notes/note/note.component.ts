@@ -128,4 +128,8 @@ export class NoteComponent implements OnInit {
 
     return;
   }
+
+  getListItems(): string[] {
+    return this.note?.content?.split('\n') || [];
+  }
 }

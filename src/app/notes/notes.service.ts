@@ -44,6 +44,7 @@ export class NotesService {
             labels: note.labels,
             pinned: note.pinned,
             background: note.background,
+            category: note.category,
             date: new Date(),
           });
         }
@@ -53,7 +54,7 @@ export class NotesService {
           labels: note.labels ? note.labels : [],
           pinned: note.pinned ? note.pinned : false,
           background: note.background ? note.background : 'Default',
-          type: 'normal',
+          category: note.category ? note.category : 'normal',
           date: new Date(),
         };
         return this.db.collection(uid!).add(noteToAdd);
