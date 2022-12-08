@@ -16,11 +16,13 @@
       >
       <mat-list *ngIf="note.category === 'list'">
         <mat-list-item *ngFor="let listItem of getListItems(); let i = index">
+          <!-- <mat-icon *ngIf="!listItem.checked" matListItemIcon>check_box_outline_blank</mat-icon> -->
+          <!-- <mat-icon *ngIf="listItem.checked" matListItemIcon>check_box</mat-icon> -->
           <mat-icon matListItemIcon>check_box_outline_blank</mat-icon>
           <span>&nbsp;</span>
           <textarea
             matInput
-            class="w-full"
+            class="w-full hover:cursor-pointer"
             cdkTextareaAutosize
             cdkAutosizeMinRows="1"
             cdkAutosizeMaxRows="5"
