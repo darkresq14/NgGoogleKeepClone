@@ -110,19 +110,17 @@ export class EditComponent implements OnInit {
   }
 
   getListItems(): ChecklistItem[] {
-    let itemList = this.data?.note.content?.split('\n');
-    return itemList ? itemList.map(item => (ChecklistItem.convert(item))) : [];
+    return this.data?.note?.content?.split('\n').map(c => (ChecklistItem.convert(c))) || [];
   }
 
   getNoteContent(): string {
     if (this.inputTextarea) {
       return this.inputTextarea;
     }
-    else if (this.todoList.length > 1) {
-      let initVal = this.todoList.at(0)?.content || "";
+    else {
+      let initVal = this.todoList.at(0)?.toString() || "";
       return this.todoList.splice(1).reduce((acc, item) => (`${acc}\n${item.toString()}`), initVal); //concatenates with \n separator
     }
-    else return "";
   }
 
   disableEditMode() {

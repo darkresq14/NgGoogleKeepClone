@@ -17,6 +17,7 @@ import { ChecklistItem } from './checklist-item.model';
 })
 export class NoteComponent implements OnInit {
   showLabels = false;
+  todoList: ChecklistItem[] = [];
   @Input() note!: Note;
 
   bgColors = bgColors;
@@ -26,15 +27,20 @@ export class NoteComponent implements OnInit {
     private dialog: MatDialog,
     private store: Store<State>,
     private elementRef: ElementRef
-  ) {}
+  ) { }
 
-  ngOnInit(): void {}
-
-  openEditDialog(note: Note) {    
+  ngOnInit(): void {
+    if (this.note.category === "list") {
+      this.todoList = this.getListItems();
+    }
+  }
+  
+  openEditDialog(note: Note) {
     this.dialog.open(NoteEditDialogComponent, {
       data: { note: note },
       panelClass: 'custom-dialog-container',
     });
+    this.todoList = this.getListItems();
   }
 
   onDeleteNote() {
@@ -130,7 +136,7 @@ export class NoteComponent implements OnInit {
     return;
   }
 
-  getListItems(): string[] {
-    return this.note?.content?.split('\n') || [];//.map(c => (ChecklistItem.convert(c))) || [];
+  getListItems(): ChecklistItem[] {
+    return this.note?.content?.split('\n').map(c => (ChecklistItem.convert(c))) || [];
   }
 }
