@@ -130,20 +130,24 @@ export class EditComponent implements OnInit {
       if (this.note) {
         this.store.dispatch(
           createOrEditNote({
-            ...this.note,
-            category: this.noteType,
-            title: this.inputTitle,
-            content: this.getNoteContent(),
-            pinned: this.inputPin,
+            note: {
+              ...this.note,
+              category: this.noteType,
+              title: this.inputTitle,
+              content: this.getNoteContent(),
+              pinned: this.inputPin,
+            },
           })
         );
       } else {
         this.store.dispatch(
           createOrEditNote({
-            category: this.noteType,
-            title: this.inputTitle,
-            content: this.getNoteContent(),
-            pinned: this.inputPin,
+            note: {
+              category: this.noteType,
+              title: this.inputTitle,
+              content: this.getNoteContent(),
+              pinned: this.inputPin,
+            },
           })
         );
       }
