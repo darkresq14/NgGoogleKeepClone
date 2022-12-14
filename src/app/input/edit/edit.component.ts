@@ -83,11 +83,10 @@ export class EditComponent implements OnInit {
             this.todoList = this.getListItems();
             break;
           }
-          case "normal": {
+          default: { //also meant for keyword 'normal'
             this.inputTextarea = this.data.note.content;
             break;
           }
-          default: { }
         }
       }
       if (this.data.note.pinned) {
@@ -102,11 +101,10 @@ export class EditComponent implements OnInit {
         this.todoList = this.getListItems();
         break;
       }
-      case "normal": {
+      default: { //also meant for keyword 'normal'
         this.inputTextarea = this.data?.note.content || "";
         break;
       }
-      default: { }
     }
   }
 
