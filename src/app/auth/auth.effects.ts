@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { switchMap, map, from, catchError, of, take } from 'rxjs';
-import { AuthData } from './auth.model';
+import { AuthData, User } from './auth.model';
 import * as AuthActions from './auth.actions';
 import * as UiActions from '../shared/ui/ui.actions';
 import { UiService } from '../shared/ui/ui.service';
 import { Store } from '@ngrx/store';
 import { State } from '../store/app.reducer';
 import firebase from 'firebase/compat/app';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,8 @@ export class AuthEffects {
     private actions$: Actions,
     private afAuth: AngularFireAuth,
     private store: Store<State>,
-    private uiService: UiService
+    private uiService: UiService,
+    private db: AngularFirestore
   ) {}
 
   authLogin$ = createEffect(() => {
@@ -60,8 +62,14 @@ export class AuthEffects {
           take(1),
           map((auth) => {
             this.store.dispatch(UiActions.stopLoading());
+            this.store.dispatch(
+              AuthActions.CreateUserStart({
+                uid: auth.user!.uid,
+                email: auth.user!.email,
+              })
+            );
             return AuthActions.AuthSuccess({
-              uid: auth.user ? auth.user.uid : null,
+              uid: auth.user!.uid,
             });
           }),
           catchError((error: Error) => {
@@ -91,6 +99,28 @@ export class AuthEffects {
           }),
           catchError((error: Error) => {
             this.store.dispatch(UiActions.stopLoading());
+            this.uiService.showSnackbar(error.message, '', 3000);
+            return of(AuthActions.AuthFailure({ error }));
+          })
+        );
+      })
+    );
+  });
+
+  createUser$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AuthActions.AuthActionTypes.CreateUserStart),
+      switchMap((user: User) => {
+        return from(
+          this.db.collection('users').doc(user.uid).set({
+            email: user.email,
+          })
+        ).pipe(
+          take(1),
+          map(() => {
+            return AuthActions.CreateUserSuccess();
+          }),
+          catchError((error: Error) => {
             this.uiService.showSnackbar(error.message, '', 3000);
             return of(AuthActions.AuthFailure({ error }));
           })
