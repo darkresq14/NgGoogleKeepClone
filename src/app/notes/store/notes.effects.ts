@@ -77,6 +77,7 @@ export class NotesEffects {
           }),
           catchError((error) => {
             this.store.dispatch(UiActions.stopLoading());
+            console.log('error', error);
             this.uiService.showSnackbar(error.message, '', 3000);
             return of(NotesActions.deleteNoteFailure(error));
           })
@@ -84,6 +85,7 @@ export class NotesEffects {
       }),
       catchError((error) => {
         this.store.dispatch(UiActions.stopLoading());
+        console.log('error', error);
         this.uiService.showSnackbar(error.message, '', 3000);
         return of(NotesActions.deleteNoteFailure(error));
       })

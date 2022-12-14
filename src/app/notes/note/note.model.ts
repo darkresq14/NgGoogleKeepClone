@@ -1,5 +1,6 @@
 export interface Note {
   id?: string;
+  owner?: string;
   title?: string;
   content?: string;
   type?: 'normal' | 'list' | 'drawing' | 'image';
