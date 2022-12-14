@@ -18,7 +18,7 @@ export class NotesEffects {
     private notesService: NotesService,
     private uiService: UiService,
     private store: Store<State>
-  ) { }
+  ) {}
 
   getNotes$ = createEffect(() => {
     return this.actions$.pipe(
@@ -43,9 +43,9 @@ export class NotesEffects {
   createOrEditNote$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(NotesActions.createOrEditNote),
-      switchMap((props: { note: Note }) => {
+      switchMap((props: Note) => {
         this.store.dispatch(UiActions.startLoading());
-        return this.notesService.createOrEditNoteFirestore(props.note).pipe(
+        return this.notesService.createOrEditNoteFirestore(props).pipe(
           map(() => {
             this.store.dispatch(UiActions.stopLoading());
             return NotesActions.createOrEditNoteSuccess();

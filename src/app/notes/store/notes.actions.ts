@@ -33,7 +33,7 @@ export const getNotesFailure = createAction(
 
 export const createOrEditNote = createAction(
   NotesActionTypes.CreateOrEditNote,
-  props<{ note: Note }>()
+  props<Note>()
 );
 
 export const createOrEditNoteSuccess = createAction(
