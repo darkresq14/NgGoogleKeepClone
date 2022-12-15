@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, catchError, of, switchMap } from 'rxjs';
+import { map, catchError, of, switchMap, tap } from 'rxjs';
 import { UiService } from 'src/app/shared/ui/ui.service';
 import { NotesService } from '../notes.service';
 import * as NotesActions from './notes.actions';
@@ -70,22 +70,20 @@ export class NotesEffects {
       ofType(NotesActions.deleteNote),
       switchMap((props) => {
         this.store.dispatch(UiActions.startLoading());
-        return this.notesService.deleteNoteFirestore(props.id).pipe(
-          map(() => {
-            this.store.dispatch(UiActions.stopLoading());
-            return NotesActions.deleteNoteSuccess();
-          }),
-          catchError((error) => {
-            this.store.dispatch(UiActions.stopLoading());
-            console.log('error', error);
-            this.uiService.showSnackbar(error.message, '', 3000);
-            return of(NotesActions.deleteNoteFailure(error));
-          })
-        );
+        return this.notesService.deleteNoteFirestore(props.id);
+      }),
+      switchMap((res) => {
+        if (!(res instanceof Error)) {
+          this.store.dispatch(UiActions.stopLoading());
+          return of(NotesActions.deleteNoteSuccess());
+        } else {
+          this.store.dispatch(UiActions.stopLoading());
+          this.uiService.showSnackbar(res.message, '', 3000);
+          return of(NotesActions.deleteNoteFailure({ error: res }));
+        }
       }),
       catchError((error) => {
         this.store.dispatch(UiActions.stopLoading());
-        console.log('error', error);
         this.uiService.showSnackbar(error.message, '', 3000);
         return of(NotesActions.deleteNoteFailure(error));
       })
