@@ -10,6 +10,7 @@ import {
   of,
   lastValueFrom,
   throwError,
+  exhaustMap,
 } from 'rxjs';
 import { selectAuthUid } from '../auth/auth.selector';
 import { State } from '../store/app.reducer';
@@ -77,31 +78,53 @@ export class NotesService {
     );
   }
 
+  // deleteNoteFirestore(id: string) {
+  //   return this.userUid$.pipe(
+  //     take(1),
+  //     switchMap((uid) => {
+  //       const noteToDelete = this.db.collection(uid!).doc<Note>(id);
+  //       noteToDelete.valueChanges().subscribe((doc) => console.log(doc));
+  //       noteToDelete.valueChanges().pipe(
+  //         map((doc) => {
+  //           if (doc!.owner === uid) {
+  //             return noteToDelete.delete();
+  //           }
+  //           return throwError(
+  //             () => new Error('You are not the owner of this note')
+  //           );
+  //         }),
+  //         catchError((err) => {
+  //           return throwError(() => err);
+  //         })
+  //       );
+  //       return throwError(
+  //         () =>
+  //           new Error(
+  //             'An error has occured while deleting the note, please try again later'
+  //           )
+  //       );
+  //     })
+  //   );
+  // }
+
   deleteNoteFirestore(id: string) {
     return this.userUid$.pipe(
       take(1),
-      switchMap((uid) => {
-        const noteToDelete = this.db.collection(uid!).doc<Note>(id);
-        noteToDelete.valueChanges().subscribe((doc) => console.log(doc));
-        noteToDelete.valueChanges().pipe(
-          map((doc) => {
-            if (doc!.owner === uid) {
-              return noteToDelete.delete();
-            }
-            return throwError(
-              () => new Error('You are not the owner of this note')
-            );
-          }),
-          catchError((err) => {
-            return throwError(() => err);
-          })
-        );
-        return throwError(
-          () =>
-            new Error(
-              'An error has occured while deleting the note, please try again later'
-            )
-        );
+      exhaustMap((uid) => {
+        const noteToDelete = this.db.collection(uid!).doc<Note>(id).ref;
+        noteToDelete.get().then((doc) => {
+          const condition = doc.data()!.owner === uid;
+          return { noteToDelete, condition };
+        });
+        // return of('something');
+      }),
+      switchMap(({ noteToDelete, condition }) => {
+        condition
+          ? noteToDelete.delete()
+          : throwError(() => new Error('You are not the owner of this Note'));
+      }),
+      catchError((err) => {
+        return of(err);
       })
     );
   }
