@@ -36,6 +36,7 @@ import { AuthEffects } from './auth/auth.effects';
 import { EditComponent } from './input/edit/edit.component';
 import { NoteEditDialogComponent } from './notes/note-edit-dialog/note-edit-dialog.component';
 import { NotesFilterPipe } from './notes/notes-filter.pipe';
+import { NoteCollaboratorDialogComponent } from './notes/note-collaborator-dialog/note-collaborator-dialog.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { NotesFilterPipe } from './notes/notes-filter.pipe';
     EditComponent,
     NoteEditDialogComponent,
     NotesFilterPipe,
+    NoteCollaboratorDialogComponent,
   ],
   imports: [
     BrowserModule,

@@ -81,11 +81,13 @@
           >add_alert</mat-icon
         >
       </button>
+      <!--! COLLABORATORS -->
       <button
         mat-icon-button
         class="material-icons"
         matTooltip="Collaborator"
         alt="Collaborator"
+        (click)="openCollaboratorDialog()"
       >
         <mat-icon fontSet="material-icons-outlined" class="scale-75"
           >person_add_alt_1</mat-icon
@@ -108,7 +110,10 @@
       <mat-menu #backgroundMenu="matMenu">
         <div class="flex items-center p-2 gap-1">
           <ng-container
-            *ngFor="let color of bgColors | keyvalue: originalOrder; index as i"
+            *ngFor="
+              let color of bgColors | keyvalue : originalOrder;
+              index as i
+            "
           >
             <div class="h-7 w-7">
               <button
@@ -129,7 +134,10 @@
 
         <div class="flex items-center p-2 gap-1">
           <ng-container
-            *ngFor="let image of bgImages | keyvalue: originalOrder; index as i"
+            *ngFor="
+              let image of bgImages | keyvalue : originalOrder;
+              index as i
+            "
           >
             <div class="h-10 w-10">
               <button

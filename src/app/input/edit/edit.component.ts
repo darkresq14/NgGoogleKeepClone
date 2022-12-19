@@ -11,7 +11,7 @@ import { Observable, take } from 'rxjs';
 import { setInputEditMode } from 'src/app/shared/ui/ui.actions';
 import { NgForm } from '@angular/forms';
 import { State } from 'src/app/store/app.reducer';
-import { DialogData } from 'src/app/notes/note-edit-dialog/note-edit-dialog.component';
+import { NoteEditDialogData } from 'src/app/notes/note-edit-dialog/note-edit-dialog.component';
 import { selectUiIsInputEditMode } from 'src/app/shared/ui/ui.selector';
 import { Note } from 'src/app/notes/note/note.model';
 import { createOrEditNote } from 'src/app/notes/store/notes.actions';
@@ -32,7 +32,7 @@ export class EditComponent implements OnInit {
   isEditMode$: Observable<boolean>;
   isEditMode: boolean = false;
 
-  @Input() data?: DialogData;
+  @Input() data?: NoteEditDialogData;
   @ViewChild('form') form?: NgForm;
   @ViewChild('menuTrigger') menuTrigger?: MatMenuTrigger;
 

@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnInit } from '@angular/core';
-import { COMMA, ENTER, G } from '@angular/cdk/keycodes';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { State } from 'src/app/store/app.reducer';
@@ -8,6 +8,7 @@ import { createOrEditNote, deleteNote } from '../store/notes.actions';
 import { bgColors, bgImages, Note } from './note.model';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { KeyValue } from '@angular/common';
+import { NoteCollaboratorDialogComponent } from '../note-collaborator-dialog/note-collaborator-dialog.component';
 
 @Component({
   selector: 'app-note',
@@ -34,6 +35,10 @@ export class NoteComponent implements OnInit {
       data: { note: note },
       panelClass: 'custom-dialog-container',
     });
+  }
+
+  openCollaboratorDialog() {
+    this.dialog.open(NoteCollaboratorDialogComponent);
   }
 
   onDeleteNote() {
