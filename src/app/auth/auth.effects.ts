@@ -53,31 +53,29 @@ export class AuthEffects {
       ofType(AuthActions.AuthActionTypes.SignupStart),
       switchMap((props: AuthData) => {
         this.store.dispatch(UiActions.startLoading());
-        return from(
-          this.afAuth.createUserWithEmailAndPassword(
-            props.email,
-            props.password
-          )
-        ).pipe(
-          take(1),
-          map((auth) => {
-            this.store.dispatch(UiActions.stopLoading());
-            this.store.dispatch(
-              AuthActions.CreateUserStart({
-                uid: auth.user!.uid,
-                email: auth.user!.email,
-              })
-            );
-            return AuthActions.AuthSuccess({
-              uid: auth.user!.uid,
-            });
-          }),
-          catchError((error: Error) => {
-            this.store.dispatch(UiActions.stopLoading());
-            this.uiService.showSnackbar(error.message, '', 3000);
-            return of(AuthActions.AuthFailure({ error }));
+        return this.afAuth.createUserWithEmailAndPassword(
+          props.email,
+          props.password
+        );
+      }),
+      switchMap((auth) => {
+        this.store.dispatch(UiActions.stopLoading());
+        this.store.dispatch(
+          AuthActions.CreateUserStart({
+            uid: auth.user!.uid,
+            email: auth.user!.email,
           })
         );
+        return of(
+          AuthActions.AuthSuccess({
+            uid: auth.user!.uid,
+          })
+        );
+      }),
+      catchError((error: Error) => {
+        this.store.dispatch(UiActions.stopLoading());
+        this.uiService.showSnackbar(error.message, '', 3000);
+        return of(AuthActions.AuthFailure({ error }));
       })
     );
   });
@@ -110,21 +108,18 @@ export class AuthEffects {
   createUser$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(AuthActions.AuthActionTypes.CreateUserStart),
-      switchMap((user: User) => {
-        return from(
-          this.db.collection('users').doc(user.uid).set({
-            email: user.email,
-          })
-        ).pipe(
-          take(1),
-          map(() => {
-            return AuthActions.CreateUserSuccess();
-          }),
-          catchError((error: Error) => {
-            this.uiService.showSnackbar(error.message, '', 3000);
-            return of(AuthActions.AuthFailure({ error }));
-          })
-        );
+      switchMap((props: User) => {
+        return this.db.collection('users').doc(props.uid).set({
+          email: props.email,
+        });
+      }),
+      switchMap(() => {
+        return of(AuthActions.CreateUserSuccess());
+      }),
+      catchError((error: Error) => {
+        console.log('Error in createUser$: ', error);
+        this.uiService.showSnackbar(error.message, '', 3000);
+        return of(AuthActions.AuthFailure({ error }));
       })
     );
   });

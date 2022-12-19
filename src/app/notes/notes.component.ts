@@ -1,7 +1,8 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, map, of } from 'rxjs';
+import { selectAuthIsAuthenticated } from '../auth/auth.selector';
 import { State } from '../store/app.reducer';
 import { Note } from './note/note.model';
 import { getNotes } from './store/notes.actions';

@@ -22,10 +22,14 @@ export class NotesService {
       this.db.collection<Note[]>('notes').valueChanges({ idField: 'id' }),
     ]).pipe(
       map(([uid, notes]) => {
-        return notes.filter(
-          (note: Note) =>
-            note.owner === uid || note.collaborators?.includes(uid!)
-        );
+        if (uid) {
+          return notes.filter(
+            (note: Note) =>
+              note.owner === uid || note.collaborators?.includes(uid!)
+          );
+        } else {
+          return new Error('You are not logged in.');
+        }
       })
     );
   }

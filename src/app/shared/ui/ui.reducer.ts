@@ -11,6 +11,7 @@ export interface UiState {
   isSidenavExpanded: boolean;
   isInputEditMode: boolean;
   isLoading: boolean;
+  userList: [];
 }
 
 const INITIAL_STATE = {
