@@ -1,16 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Store } from '@ngrx/store';
-import {
-  map,
-  Observable,
-  switchMap,
-  take,
-  catchError,
-  of,
-  combineLatest,
-  first,
-} from 'rxjs';
+import { map, Observable, switchMap, take, combineLatest, first } from 'rxjs';
 import { selectAuthUid } from '../auth/auth.selector';
 import { State } from '../store/app.reducer';
 import { Note } from './note/note.model';
@@ -25,20 +16,17 @@ export class NotesService {
     this.userUid$ = this.store.select(selectAuthUid);
   }
 
-  // TODO: use valueChanges + { idField: 'id' }
   fetchPersonalNotesFirestore() {
-    return this.userUid$.pipe(
-      take(1),
-      switchMap((uid) => {
-        return this.db.collection('notes').snapshotChanges();
-      }),
-      map((docArray) =>
-        docArray.map((doc) => {
-          const data = doc.payload.doc.data() as Note;
-          const id = doc.payload.doc.id;
-          return { id, ...data };
-        })
-      )
+    return combineLatest([
+      this.userUid$,
+      this.db.collection<Note[]>('notes').valueChanges({ idField: 'id' }),
+    ]).pipe(
+      map(([uid, notes]) => {
+        return notes.filter(
+          (note: Note) =>
+            note.owner === uid || note.collaborators?.includes(uid!)
+        );
+      })
     );
   }
 
@@ -47,16 +35,19 @@ export class NotesService {
       take(1),
       switchMap((uid) => {
         if (note.id) {
-          return this.db.collection('notes').doc(note.id).set({
-            title: note.title,
-            owner: uid,
-            content: note.content,
-            labels: note.labels,
-            collaborators: note.collaborators,
-            pinned: note.pinned,
-            background: note.background,
-            date: new Date(),
-          });
+          return this.db
+            .collection('notes')
+            .doc(note.id)
+            .set({
+              title: note.title,
+              owner: note.owner,
+              content: note.content,
+              labels: note.labels ? note.labels : [],
+              collaborators: note.collaborators ? note.collaborators : [],
+              pinned: note.pinned ? note.pinned : false,
+              background: note.background ? note.background : 'Default',
+              date: new Date(),
+            });
         }
         const noteToAdd = {
           title: note.title,
@@ -70,9 +61,6 @@ export class NotesService {
           date: new Date(),
         };
         return this.db.collection('notes').add(noteToAdd);
-      }),
-      catchError((err) => {
-        return of(err);
       })
     );
   }

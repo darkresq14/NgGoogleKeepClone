@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, catchError, of, switchMap, tap } from 'rxjs';
+import { catchError, of, switchMap } from 'rxjs';
 import { UiService } from 'src/app/shared/ui/ui.service';
 import { NotesService } from '../notes.service';
 import * as NotesActions from './notes.actions';
@@ -25,17 +25,17 @@ export class NotesEffects {
       ofType(NotesActions.getNotes),
       switchMap(() => {
         this.store.dispatch(UiActions.startLoading());
-        return this.notesService.fetchPersonalNotesFirestore().pipe(
-          map((notes) => {
-            this.store.dispatch(UiActions.stopLoading());
-            return NotesActions.getNotesSuccess({ notes });
-          }),
-          catchError((error) => {
-            this.store.dispatch(UiActions.stopLoading());
-            this.uiService.showSnackbar(error.message, '', 3000);
-            return of(NotesActions.getNotesFailure({ error }));
-          })
-        );
+        return this.notesService.fetchPersonalNotesFirestore();
+      }),
+      switchMap((notes) => {
+        this.store.dispatch(UiActions.stopLoading());
+        return of(NotesActions.getNotesSuccess({ notes }));
+      }),
+      catchError((error) => {
+        this.store.dispatch(UiActions.stopLoading());
+        console.log('Error: ', error);
+        this.uiService.showSnackbar(error.message, '', 3000);
+        return of(NotesActions.getNotesFailure({ error }));
       })
     );
   });
@@ -45,20 +45,15 @@ export class NotesEffects {
       ofType(NotesActions.createOrEditNote),
       switchMap((props: Note) => {
         this.store.dispatch(UiActions.startLoading());
-        return this.notesService.createOrEditNoteFirestore(props).pipe(
-          map(() => {
-            this.store.dispatch(UiActions.stopLoading());
-            return NotesActions.createOrEditNoteSuccess();
-          }),
-          catchError((error) => {
-            this.store.dispatch(UiActions.stopLoading());
-            this.uiService.showSnackbar(error.message, '', 3000);
-            return of(NotesActions.createOrEditNoteFailure(error));
-          })
-        );
+        return this.notesService.createOrEditNoteFirestore(props);
+      }),
+      switchMap(() => {
+        this.store.dispatch(UiActions.stopLoading());
+        return of(NotesActions.createOrEditNoteSuccess());
       }),
       catchError((error) => {
         this.store.dispatch(UiActions.stopLoading());
+        console.log('Error: ', error);
         this.uiService.showSnackbar(error.message, '', 3000);
         return of(NotesActions.createOrEditNoteFailure(error));
       })
@@ -84,6 +79,7 @@ export class NotesEffects {
       }),
       catchError((error) => {
         this.store.dispatch(UiActions.stopLoading());
+        console.log('Error: ', error);
         this.uiService.showSnackbar(error.message, '', 3000);
         return of(NotesActions.deleteNoteFailure(error));
       })
