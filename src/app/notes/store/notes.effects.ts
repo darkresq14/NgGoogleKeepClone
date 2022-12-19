@@ -13,8 +13,6 @@ import {
   Observable,
   exhaustMap,
   takeUntil,
-  withLatestFrom,
-  filter,
 } from 'rxjs';
 import { UiService } from 'src/app/shared/ui/ui.service';
 import { NotesService } from '../notes.service';
@@ -64,10 +62,10 @@ export class NotesEffects implements OnRunEffects {
 
   ngrxOnRunEffects(resolvedEffects$: Observable<EffectNotification>) {
     return this.actions$.pipe(
-      ofType(NotesActions.getNotes),
+      ofType(AuthActions.AuthSuccess),
       exhaustMap(() =>
         resolvedEffects$.pipe(
-          takeUntil(this.actions$.pipe(ofType(AuthActions.LogoutSuccess)))
+          takeUntil(this.actions$.pipe(ofType(AuthActions.LogoutStart)))
         )
       )
     );
