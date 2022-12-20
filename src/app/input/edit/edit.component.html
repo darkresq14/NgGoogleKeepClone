@@ -34,9 +34,9 @@
       ></textarea> -->
 
       <mat-list *ngIf="noteType === 'list'">
-        <mat-list-item *ngFor="let listItem of todoList; let i = index" (click)="checkItem(listItem)">
-          <mat-icon *ngIf="listItem.checked" matListItemIcon>check_box</mat-icon>
-          <mat-icon *ngIf="!listItem.checked" matListItemIcon>check_box_outline_blank</mat-icon>
+        <mat-list-item *ngFor="let listItem of todoList; let i = index">
+          <mat-icon *ngIf="listItem.checked" (click)="checkItem(listItem)" matListItemIcon>check_box</mat-icon>
+          <mat-icon *ngIf="!listItem.checked" (click)="checkItem(listItem)" matListItemIcon>check_box_outline_blank</mat-icon>
           <span>&nbsp;</span>
           <textarea
             matInput
@@ -44,10 +44,11 @@
             cdkTextareaAutosize
             cdkAutosizeMinRows="1"
             cdkAutosizeMaxRows="5"
-            isReadonly
+            readonly="{{listItem.checked}}"
             [ngStyle]="listItem.checked ? {textDecoration: 'line-through', color: 'grey'} : {}"
-            [ngModel]="listItem.content"
+            [(ngModel)]="listItem.content"
             name="checkBoxListItem-{{i}}"
+            (keydown.backspace)="(removeListItem(listItem, i))"
           ></textarea>
         </mat-list-item>
         <mat-list-item>

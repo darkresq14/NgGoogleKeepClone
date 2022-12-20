@@ -34,10 +34,16 @@ export class NoteComponent implements OnInit {
       this.todoList = this.getListItems();
     }
   }
-  
+
+  ngOnChanges(): void {
+    if (this.note.category === "list") {
+      this.todoList = this.getListItems();
+    }
+  }
+
   openEditDialog(note: Note) {
     console.log(note);
-    
+
     this.dialog.open(NoteEditDialogComponent, {
       data: { note: note },
       panelClass: 'custom-dialog-container',
@@ -139,6 +145,6 @@ export class NoteComponent implements OnInit {
   }
 
   getListItems(): ChecklistItem[] {
-    return this.note?.content?.split('\n').map(c => (ChecklistItem.convert(c))) || [];
+    return this.note?.content?.split('\n').map(c => (new ChecklistItem(c))) || [];
   }
 }

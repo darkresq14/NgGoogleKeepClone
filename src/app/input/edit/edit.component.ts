@@ -84,10 +84,11 @@ export class EditComponent implements OnInit {
             this.todoList = this.getListItems();
             break;
           }
-          default: { //also meant for keyword 'normal'
+          case "normal": {
             this.inputTextarea = this.data.note.content;
             break;
           }
+          default: { }
         }
       }
       if (this.data.note.pinned) {
@@ -102,15 +103,16 @@ export class EditComponent implements OnInit {
         this.todoList = this.getListItems();
         break;
       }
-      default: { //also meant for keyword 'normal'
+      case "normal": {
         this.inputTextarea = this.data?.note.content || "";
         break;
       }
+      default: { }
     }
   }
 
   getListItems(): ChecklistItem[] {
-    return this.data?.note?.content?.split('\n').map(c => (ChecklistItem.convert(c))) || [];
+    return this.data?.note?.content?.split('\n').map(c => (new ChecklistItem(c))) || [];
   }
 
   getNoteContent(): string {
@@ -119,7 +121,7 @@ export class EditComponent implements OnInit {
     }
     else {
       let initVal = this.todoList.at(0)?.toString() || "";
-      return this.todoList.splice(1).reduce((acc, item) => (`${acc}\n${item.toString()}`), initVal); //concatenates with \n separator
+      return this.todoList.slice(1).reduce((acc, item) => (`${acc}\n${item.toString()}`), initVal); //concatenates with \n separator
     }
   }
 
@@ -168,8 +170,15 @@ export class EditComponent implements OnInit {
   }
 
   saveListItem($item: any) {
-    this.todoList.push(ChecklistItem.convert($item.target.value));
+    this.todoList.push(new ChecklistItem($item.target.value));
     this.newTodoItem = "";
+  }
+
+  removeListItem(item: ChecklistItem, index: number) {
+    if(item.content === "") {
+      console.log("Deleted item: ", item, this.todoList);
+      this.todoList.splice(index, 1);
+    }
   }
 
   checkItem(item: ChecklistItem) {

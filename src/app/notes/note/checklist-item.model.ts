@@ -1,22 +1,14 @@
 export class ChecklistItem {
   content: string;
   checked: boolean;
-  static selected?: ChecklistItem = undefined;
 
-  constructor(content: string, checked?: boolean) {
-    this.content = content;
-    this.checked = checked || false;
+  constructor(listItem: string) {
+    this.checked = listItem.indexOf(checkedSeparator) !== -1;
+    this.content = this.checked ? listItem.slice(0, -checkedSeparator.length) : listItem;
   }
 
   toString(): string {
     return `${this.content}${this.checked ? checkedSeparator : ''}`;
-  }
-
-  static convert(listItem: string): ChecklistItem {
-    let checked = listItem.indexOf(checkedSeparator) !== -1;
-    let content = checked ? listItem.slice(0, -checkedSeparator.length) : listItem;
-    return new ChecklistItem(content, checked);
-
   }
 
   toggleCheck() {
@@ -30,15 +22,6 @@ export class ChecklistItem {
   uncheck() {
     this.checked = false;
   }
-
-  select(item: ChecklistItem) {
-    ChecklistItem.selected = item;
-  }
-
-  deselectAll() {
-    ChecklistItem.selected = undefined;
-  }
-
 }
 
 export const checkedSeparator = "#check";

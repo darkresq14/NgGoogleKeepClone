@@ -30,6 +30,14 @@ export class NotesComponent implements OnInit, OnDestroy {
     // this.breakpoint = window.innerWidth <= 400 ? 1 : 6;
   }
 
+  ngOnChanges(): void {
+    // this.store
+    //   .select(selectNotesNotes)
+    //   .subscribe((data) => (this.notes = [...data]));
+    this.store.dispatch(getNotes());
+    // this.breakpoint = window.innerWidth <= 400 ? 1 : 6;
+  }
+
   onResize(event: any) {
     // this.breakpoint = event.target.innerWidth <= 400 ? 1 : 6;
   }
