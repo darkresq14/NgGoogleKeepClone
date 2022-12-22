@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { switchMap, map, from, catchError, of, take } from 'rxjs';
+import { switchMap, map, from, catchError, of, take, first } from 'rxjs';
 import { AuthData, User } from './auth.model';
 import * as AuthActions from './auth.actions';
 import * as UiActions from '../shared/ui/ui.actions';
@@ -30,20 +30,22 @@ export class AuthEffects {
         this.store.dispatch(UiActions.startLoading());
         return from(
           this.afAuth.signInWithEmailAndPassword(props.email, props.password)
-        ).pipe(
-          take(1),
-          map((auth) => {
-            this.store.dispatch(UiActions.stopLoading());
-            return AuthActions.AuthSuccess({
-              uid: auth.user ? auth.user.uid : null,
-            });
-          }),
-          catchError((error: Error) => {
-            this.store.dispatch(UiActions.stopLoading());
-            this.uiService.showSnackbar(error.message, '', 3000);
-            return of(AuthActions.AuthFailure({ error }));
+        );
+      }),
+      first(),
+      switchMap((auth) => {
+        this.store.dispatch(UiActions.stopLoading());
+        //TODO Reconsider this return
+        return of(
+          AuthActions.AuthSuccess({
+            uid: auth.user ? auth.user.uid : null,
           })
         );
+      }),
+      catchError((error: Error) => {
+        this.store.dispatch(UiActions.stopLoading());
+        this.uiService.showSnackbar(error.message, '', 3000);
+        return of(AuthActions.AuthFailure({ error }));
       })
     );
   });
@@ -87,20 +89,21 @@ export class AuthEffects {
         this.store.dispatch(UiActions.startLoading());
         return from(
           this.afAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
-        ).pipe(
-          take(1),
-          map((auth) => {
-            this.store.dispatch(UiActions.stopLoading());
-            return AuthActions.AuthSuccess({
-              uid: auth.user ? auth.user.uid : null,
-            });
-          }),
-          catchError((error: Error) => {
-            this.store.dispatch(UiActions.stopLoading());
-            this.uiService.showSnackbar(error.message, '', 3000);
-            return of(AuthActions.AuthFailure({ error }));
+        );
+      }),
+      first(),
+      switchMap((auth) => {
+        this.store.dispatch(UiActions.stopLoading());
+        return of(
+          AuthActions.AuthSuccess({
+            uid: auth.user ? auth.user.uid : null,
           })
         );
+      }),
+      catchError((error: Error) => {
+        this.store.dispatch(UiActions.stopLoading());
+        this.uiService.showSnackbar(error.message, '', 3000);
+        return of(AuthActions.AuthFailure({ error }));
       })
     );
   });
@@ -129,18 +132,17 @@ export class AuthEffects {
       ofType(AuthActions.AuthActionTypes.LogoutStart),
       switchMap(() => {
         this.store.dispatch(UiActions.startLoading());
-        return from(this.afAuth.signOut()).pipe(
-          take(1),
-          map(() => {
-            this.store.dispatch(UiActions.stopLoading());
-            return AuthActions.LogoutSuccess();
-          }),
-          catchError((error: Error) => {
-            this.store.dispatch(UiActions.stopLoading());
-            this.uiService.showSnackbar(error.message, '', 3000);
-            return of(AuthActions.LogoutFailure({ error }));
-          })
-        );
+        return from(this.afAuth.signOut());
+      }),
+      first(),
+      switchMap(() => {
+        this.store.dispatch(UiActions.stopLoading());
+        return of(AuthActions.LogoutSuccess());
+      }),
+      catchError((error: Error) => {
+        this.store.dispatch(UiActions.stopLoading());
+        this.uiService.showSnackbar(error.message, '', 3000);
+        return of(AuthActions.LogoutFailure({ error }));
       })
     );
   });

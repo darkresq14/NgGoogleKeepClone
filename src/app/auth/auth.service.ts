@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { map } from 'rxjs';
 import { State } from '../store/app.reducer';
 import { AuthSuccess, LogoutStart } from './auth.actions';
 
@@ -10,7 +12,8 @@ export class AuthService {
   constructor(
     private store: Store<State>,
     private afAuth: AngularFireAuth,
-    private router: Router
+    private router: Router,
+    private db: AngularFirestore
   ) {}
 
   initAuthListener(): void {
@@ -23,5 +26,9 @@ export class AuthService {
         this.router.navigate(['/login']);
       }
     });
+  }
+
+  getUsers() {
+    return this.db.collection('users').valueChanges({ idField: 'id' });
   }
 }

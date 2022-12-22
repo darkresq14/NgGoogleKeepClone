@@ -22,6 +22,7 @@ Pinning Notes
 ## Task List
 
 - [x] Labels
+  - [ ] Filter by Labels 
 - [X] Pinned Notes
   - [X] Add option for pinning on new note
 - [X] Modify Background
