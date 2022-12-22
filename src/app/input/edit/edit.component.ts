@@ -30,6 +30,7 @@ export class EditComponent implements OnInit {
   todoList: ChecklistItem[] = [];
   newTodoItem: string = '';
   menuOpen: boolean = false;
+  checkingItem: boolean = false;
   note?: Note;
 
   isEditMode$: Observable<boolean>;
@@ -44,6 +45,10 @@ export class EditComponent implements OnInit {
   clickedOut(event: MouseEvent) {
     if (this.menuOpen) {
       this.menuOpen = this.menuTrigger?.menuOpen ?? false;
+      return;
+    }
+    if (this.checkingItem) {
+      this.checkingItem = false;
       return;
     }
     if (this.eRef?.nativeElement) {
@@ -80,15 +85,16 @@ export class EditComponent implements OnInit {
       }
       if (this.data.note.content) {
         switch (this.noteType) {
-          case "list": {
+          case 'list': {
             this.todoList = this.getListItems();
             break;
           }
-          case "normal": {
+          case 'normal': {
             this.inputTextarea = this.data.note.content;
             break;
           }
-          default: { }
+          default: {
+          }
         }
       }
       if (this.data.note.pinned) {
@@ -99,29 +105,34 @@ export class EditComponent implements OnInit {
 
   ngOnChanges(): void {
     switch (this.noteType) {
-      case "list": {
+      case 'list': {
         this.todoList = this.getListItems();
         break;
       }
-      case "normal": {
-        this.inputTextarea = this.data?.note.content || "";
+      case 'normal': {
+        this.inputTextarea = this.data?.note.content || '';
         break;
       }
-      default: { }
+      default: {
+      }
     }
   }
 
   getListItems(): ChecklistItem[] {
-    return this.data?.note?.content?.split('\n').map(c => (new ChecklistItem(c))) || [];
+    return (
+      this.data?.note?.content?.split('\n').map((c) => new ChecklistItem(c)) ||
+      []
+    );
   }
 
   getNoteContent(): string {
     if (this.inputTextarea) {
       return this.inputTextarea;
-    }
-    else {
-      let initVal = this.todoList.at(0)?.toString() || "";
-      return this.todoList.slice(1).reduce((acc, item) => (`${acc}\n${item.toString()}`), initVal); //concatenates with \n separator
+    } else {
+      let initVal = this.todoList.at(0)?.toString() || '';
+      return this.todoList
+        .slice(1)
+        .reduce((acc, item) => `${acc}\n${item.toString()}`, initVal); //concatenates with \n separator
     }
   }
 
@@ -171,18 +182,19 @@ export class EditComponent implements OnInit {
 
   saveListItem($item: any) {
     this.todoList.push(new ChecklistItem($item.target.value));
-    this.newTodoItem = "";
+    this.newTodoItem = '';
   }
 
   removeListItem(item: ChecklistItem, index: number) {
-    if(item.content === "") {
-      console.log("Deleted item: ", item, this.todoList);
+    if (item.content === '') {
+      console.log('Deleted item: ', item, this.todoList);
       this.todoList.splice(index, 1);
     }
   }
 
   checkItem(item: ChecklistItem) {
     item.toggleCheck();
+    this.checkingItem = true;
   }
 
   onPinClicked() {
