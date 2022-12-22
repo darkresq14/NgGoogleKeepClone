@@ -11,7 +11,9 @@
       />
     </mat-card-title>
     <mat-card-content>
-      <textarea *ngIf="noteType === 'normal'"
+      <!--! NORMAL NOTE  -->
+      <textarea
+        *ngIf="noteType === 'normal'"
         matInput
         placeholder="Take a note..."
         class="inputTextArea w-full"
@@ -33,10 +35,12 @@
         name="inputTextarea"
       ></textarea> -->
 
+      <!--! CHECKBOX NOTE -->
       <mat-list *ngIf="noteType === 'list'">
         <mat-list-item *ngFor="let listItem of todoList; let i = index">
-          <mat-icon *ngIf="listItem.checked" (click)="checkItem(listItem)" matListItemIcon>check_box</mat-icon>
-          <mat-icon *ngIf="!listItem.checked" (click)="checkItem(listItem)" matListItemIcon>check_box_outline_blank</mat-icon>
+          <mat-icon (click)="checkItem(listItem)" matListItemIcon>{{
+            listItem.checked ? "check_box" : "check_box_outline_blank"
+          }}</mat-icon>
           <span>&nbsp;</span>
           <textarea
             matInput
@@ -44,11 +48,15 @@
             cdkTextareaAutosize
             cdkAutosizeMinRows="1"
             cdkAutosizeMaxRows="5"
-            readonly="{{listItem.checked}}"
-            [ngStyle]="listItem.checked ? {textDecoration: 'line-through', color: 'grey'} : {}"
+            readonly="{{ listItem.checked }}"
+            [ngStyle]="
+              listItem.checked
+                ? { textDecoration: 'line-through', color: 'grey' }
+                : {}
+            "
             [(ngModel)]="listItem.content"
-            name="checkBoxListItem-{{i}}"
-            (keydown.backspace)="(removeListItem(listItem, i))"
+            name="checkBoxListItem-{{ i }}"
+            (keydown.backspace)="removeListItem(listItem, i)"
           ></textarea>
         </mat-list-item>
         <mat-list-item>
@@ -60,10 +68,10 @@
             class="inputTextArea w-full"
             [(ngModel)]="newTodoItem"
             name="inputTextarea"
-            (keydown.enter)="(saveListItem($event))"
+            (keydown.enter)="saveListItem($event)"
           />
         </mat-list-item>
-      </mat-list>      
+      </mat-list>
     </mat-card-content>
   </form>
   <!--! PINNED  -->

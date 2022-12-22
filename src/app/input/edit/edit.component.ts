@@ -30,7 +30,6 @@ export class EditComponent implements OnInit {
   todoList: ChecklistItem[] = [];
   newTodoItem: string = '';
   menuOpen: boolean = false;
-  checkingItem: boolean = false;
   note?: Note;
 
   isEditMode$: Observable<boolean>;
@@ -45,10 +44,6 @@ export class EditComponent implements OnInit {
   clickedOut(event: MouseEvent) {
     if (this.menuOpen) {
       this.menuOpen = this.menuTrigger?.menuOpen ?? false;
-      return;
-    }
-    if (this.checkingItem) {
-      this.checkingItem = false;
       return;
     }
     if (this.eRef?.nativeElement) {
@@ -194,7 +189,6 @@ export class EditComponent implements OnInit {
 
   checkItem(item: ChecklistItem) {
     item.toggleCheck();
-    this.checkingItem = true;
   }
 
   onPinClicked() {
