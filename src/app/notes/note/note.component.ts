@@ -37,8 +37,11 @@ export class NoteComponent implements OnInit {
     });
   }
 
-  openCollaboratorDialog() {
-    this.dialog.open(NoteCollaboratorDialogComponent);
+  openCollaboratorDialog(note: Note) {
+    this.dialog.open(NoteCollaboratorDialogComponent, {
+      data: { note: note },
+      panelClass: 'custom-dialog-container',
+    });
   }
 
   onDeleteNote() {

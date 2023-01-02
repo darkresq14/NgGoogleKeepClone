@@ -13,7 +13,7 @@ export enum AuthActionTypes {
   CreateUserStart = '[Auth] CreateUserStart',
   CreateUserSuccess = '[Auth] CreateUserSuccess',
   CreateUserFailure = '[Auth] CreateUserFailure',
-  GetUsers = '[Auth] GetUsers',
+  GetUsersStart = '[Auth] GetUsersStart',
   GetUsersSuccess = '[Auth] GetUsersSuccess',
   GetUsersFailure = '[Auth] GetUsersFailure',
 }
@@ -62,6 +62,8 @@ export const CreateUserFailure = createAction(
   AuthActionTypes.CreateUserFailure,
   props<{ error: Error }>()
 );
+
+export const GetUsersStart = createAction(AuthActionTypes.GetUsersStart);
 
 export const GetUsersSuccess = createAction(
   AuthActionTypes.GetUsersSuccess,

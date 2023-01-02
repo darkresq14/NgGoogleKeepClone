@@ -14,6 +14,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   imports: [
@@ -32,6 +33,7 @@ import { MatChipsModule } from '@angular/material/chips';
     MatDialogModule,
     MatMenuModule,
     MatChipsModule,
+    MatAutocompleteModule,
   ],
   exports: [
     MatToolbarModule,
@@ -49,6 +51,7 @@ import { MatChipsModule } from '@angular/material/chips';
     MatDialogModule,
     MatMenuModule,
     MatChipsModule,
+    MatAutocompleteModule,
   ],
 })
 export class MaterialModule {}

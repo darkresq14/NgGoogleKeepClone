@@ -1,13 +1,15 @@
-import { User } from '@angular/fire/auth';
 import { createReducer, on } from '@ngrx/store';
 import {
   AuthFailure,
   AuthSuccess,
   CreateUserFailure,
   CreateUserSuccess,
+  GetUsersFailure,
+  GetUsersSuccess,
   LogoutFailure,
   LogoutSuccess,
 } from './auth.actions';
+import { User } from './auth.model';
 
 export interface AuthState {
   isAuthenticated: boolean;
@@ -41,6 +43,12 @@ export const authReducer = createReducer(
     return { ...state, error: null };
   }),
   on(CreateUserFailure, (state, { error }) => {
+    return { ...state, error: error };
+  }),
+  on(GetUsersSuccess, (state, { users }) => {
+    return { ...state, users: users, error: null };
+  }),
+  on(GetUsersFailure, (state, { error }) => {
     return { ...state, error: error };
   })
 );

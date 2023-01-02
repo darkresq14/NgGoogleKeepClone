@@ -23,6 +23,20 @@ export class AuthEffects {
     private db: AngularFirestore
   ) {}
 
+  getUsers$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AuthActions.AuthActionTypes.GetUsersStart),
+      switchMap(() => {
+        return this.db
+          .collection<User>('users')
+          .valueChanges({ idField: 'uid' });
+      }),
+      map((users) => {
+        return AuthActions.GetUsersSuccess({ users });
+      })
+    );
+  });
+
   authLogin$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(AuthActions.AuthActionTypes.LoginStart),

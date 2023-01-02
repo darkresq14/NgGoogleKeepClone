@@ -1,1 +1,51 @@
-<p>note-collaborator-dialog works!</p>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Collaborators</mat-card-title>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <div class="py-2 grid grid-cols-12 gap-2">
+    <div class="flex col-span-2 items-center justify-center">
+      <mat-icon>person</mat-icon>
+    </div>
+    <div class="flex col-span-10 items-center justify-center">
+      {{ data.note.owner }} <i>&nbsp;(Owner)</i>
+    </div>
+  </div>
+  <div
+    class="py-2 grid grid-cols-12 gap-2"
+    *ngFor="let collaborator of data.note.collaborators"
+  >
+    <div class="flex col-span-2 items-center justify-center">
+      <mat-icon fontSet="material-icons-outlined">person</mat-icon>
+    </div>
+    <div class="flex col-span-10 items-center justify-center">
+      {{ collaborator }} <i>&nbsp;(Owner)</i>
+    </div>
+  </div>
+  <div class="py-2 grid grid-cols-12 gap-2">
+    <div class="flex col-span-2 items-center justify-center">
+      <mat-icon fontSet="material-icons-outlined">person_add</mat-icon>
+    </div>
+    <div class="flex col-span-10 items-center justify-center">
+      <form class="example-form">
+        <mat-form-field class="example-full-width" floatLabel="never">
+          <input
+            type="text"
+            placeholder="Pick a collaborator"
+            matInput
+            [formControl]="myControl"
+            [matAutocomplete]="auto"
+          />
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option
+              *ngFor="let user of filteredUsers$ | async"
+              [value]="user.uid"
+            >
+              {{ user.email }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </form>
+    </div>
+  </div>
+</mat-card>

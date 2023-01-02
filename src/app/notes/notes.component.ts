@@ -2,6 +2,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, map, of } from 'rxjs';
+import { GetUsersStart } from '../auth/auth.actions';
 import { selectAuthIsAuthenticated } from '../auth/auth.selector';
 import { State } from '../store/app.reducer';
 import { Note } from './note/note.model';
@@ -28,6 +29,7 @@ export class NotesComponent implements OnInit, OnDestroy {
     //   .select(selectNotesNotes)
     //   .subscribe((data) => (this.notes = [...data]));
     this.store.dispatch(getNotes());
+    this.store.dispatch(GetUsersStart());
     // this.breakpoint = window.innerWidth <= 400 ? 1 : 6;
   }
 
